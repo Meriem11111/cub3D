@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/08 14:46:32 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/10 23:37:24 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,34 +115,44 @@ void get_map(char *av, t_map *map)
     close(fd);
 }
 
-// void check_textures(t_map *map, int *i)
-// {
-//     int count;
+void ini(t_map *map)
+{
+    map->count->no_count = 0;
+    map->count->so_count = 0;
+    map->count->we_count = 0;
+    map->count-> ea_count = 0;
+    map->count->c_count = 0;
+    map->count->f_count = 0;
+}
 
-//     count = 0;
-//     while(map->line[*i])
-//     {
-//         printf("line = %s\n", map->line[*i]);
-        
-//         // Check for "NO", "SO", "WE", "EA" at the start of the line
-//         if ((ft_strncmp(map->line[*i], "NO", 2) == 0 && map->line[*i][2] == ' ') ||
-//             (ft_strncmp(map->line[*i], "SO", 2) == 0 && map->line[*i][2] == ' ') ||
-//             (ft_strncmp(map->line[*i], "WE", 2) == 0 && map->line[*i][2] == ' ') ||
-//             (ft_strncmp(map->line[*i], "EA", 2) == 0 && map->line[*i][2] == ' '))
-//         {
-//             count++;
-//         }
-        
-//         (*i)++;
-//     }
+void check_multiple(t_map *map)
+{
+    int i;
 
-//     printf("count == %d\n", count);
-//     if(count != 4)
-//     {
-//         printf("ERROR texture\n");
-//     }
-// }
-
+    i = 0;
+    while(map->line[i])
+    {
+        if(ft_strncmp(map->line[i], "NO", 2) == 0 && (map->line[i][2] == ' '))
+           map->count-> no_count++;
+        else if(ft_strncmp(map->line[i], "SO", 2) == 0 && (map->line[i][2] == ' '))
+            map->count->so_count++;
+        else if(ft_strncmp(map->line[i], "WE", 2) == 0 && (map->line[i][2] == ' '))
+            map->count->we_count++;
+        else if(ft_strncmp(map->line[i], "EA", 2) == 0 && (map->line[i][2] == ' '))
+            map->count->ea_count++;
+        else if(ft_strncmp(map->line[i], "F", 1) == 0 && (map->line[i][1] == ' '))
+            map->count->f_count++;
+        else if(ft_strncmp(map->line[i], "C", 1) == 0 && (map->line[i][1] == ' '))
+            map->count->c_count++;
+        i++;
+    }
+    if(map->count->no_count != 1 || map->count->so_count != 1 || map->count->we_count != 1 
+        || map->count->ea_count != 1 || map->count->f_count != 1 || map->count->c_count != 1)
+    {
+        printf("Error multiple textures !! \n");
+        exit(1);
+    }
+}
 
 
 void check_textures(t_map *map, int *i)
@@ -157,7 +167,7 @@ void check_textures(t_map *map, int *i)
             || ft_strncmp(map->line[*i], "WE", 2) == 0
             || ft_strncmp(map->line[*i], "EA", 2) == 0 ) && (map->line[*i][2] == ' '))
         {
-            check_multiple()
+            check_multiple(map);
             count++;
         }
         (*i)++;
@@ -211,6 +221,9 @@ void init_data(t_map *map)
 {
     map->countlines = 0;
     map->line = NULL;
+    map->count = malloc(sizeof(t_count));
+    if(!map->count)
+        return;
 }
 
 int main(int ac, char **av)
@@ -228,6 +241,6 @@ int main(int ac, char **av)
     init_data(&map);
     get_map(av[1], &map);
     check_map(&map);
-    
+    free(map.count);
     return(0);
 }

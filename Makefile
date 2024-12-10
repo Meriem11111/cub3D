@@ -1,6 +1,6 @@
 NAME = cub3D
 CC = cc 
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra  -fsanitize=address
 src = main.c utils.c ./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c
 
 OBJ = $(src:.c=.o)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/08 11:13:05 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/10 23:27:35 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,22 @@
 # include <string.h>
 # include <unistd.h>
 
+typedef struct s_count
+{
+    int no_count;
+    int so_count;
+    int we_count;
+    int ea_count;
+    int f_count;
+    int c_count;
+    
+}  t_count;
+
 typedef struct s_map
 {
     char **line;
     int countlines;
+    t_count *count;
     
 } t_map;
 
