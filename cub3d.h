@@ -6,7 +6,7 @@
 /*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/10 23:27:35 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/11 00:04:07 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,6 @@ typedef struct s_map
 int	ft_strcmp(char *s1, char *s2);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 int	ft_strchar(char *s, int c);
+void free_all(t_map *map);
+
 #endif

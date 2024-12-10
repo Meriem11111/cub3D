@@ -6,7 +6,7 @@
 /*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/10 23:37:24 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/11 00:04:48 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void check_multiple(t_map *map)
     int i;
 
     i = 0;
+    ini(map);
     while(map->line[i])
     {
         if(ft_strncmp(map->line[i], "NO", 2) == 0 && (map->line[i][2] == ' '))
@@ -150,6 +151,7 @@ void check_multiple(t_map *map)
         || map->count->ea_count != 1 || map->count->f_count != 1 || map->count->c_count != 1)
     {
         printf("Error multiple textures !! \n");
+        free(map->count);
         exit(1);
     }
 }
@@ -241,6 +243,6 @@ int main(int ac, char **av)
     init_data(&map);
     get_map(av[1], &map);
     check_map(&map);
-    free(map.count);
+    free_all(&map);
     return(0);
 }
