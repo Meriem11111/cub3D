@@ -6,7 +6,7 @@
 /*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/11 00:04:07 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/12 22:21:38 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,12 @@ typedef struct s_map
     char **line;
     int countlines;
     t_count *count;
-    
+    char *no_texture;
+    char *so_texture;
+    char *we_texture;
+    char *ea_texture;
+    char *f_color;
+    char *c_color;
 } t_map;
 
 
@@ -44,5 +49,11 @@ int	ft_strcmp(char *s1, char *s2);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 int	ft_strchar(char *s, int c);
 void free_all(t_map *map);
-
+int check_path(const char *path);
+void check_map(t_map *map);
+void check_valid(char *line, char **path);
+void free_text(char **texture);
+char	**ft_split(char const *s, char c);
+void ini(t_map *map);
+int count_part(char **value);
 #endif

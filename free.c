@@ -6,7 +6,7 @@
 /*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:28 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/11 00:03:54 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/12 21:54:47 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,29 @@ void free_map(t_map *map)
     free(map->line);
 }
 
+void free_text(char **texture)
+{
+    int i;
+
+    if(!texture)
+        return;
+    i = 0;
+    while (texture[i])
+    {
+        free(texture[i]);
+        i++;
+    }
+    free(texture);
+}
+
 void free_all(t_map *map)
 {
     free_map(map);
     free(map->count);
+    free(map->c_color);
+    free(map->f_color);
+    free(map->we_texture);
+    free(map->so_texture);
+    free(map->no_texture);
+    free(map->ea_texture);
 }

@@ -6,7 +6,7 @@
 /*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/11 00:04:48 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/12 23:06:49 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,104 +125,54 @@ void ini(t_map *map)
     map->count->f_count = 0;
 }
 
-void check_multiple(t_map *map)
+int count_part(char **value)
 {
     int i;
-
+     
+    if(!value)
+        return(0);
     i = 0;
-    ini(map);
-    while(map->line[i])
-    {
-        if(ft_strncmp(map->line[i], "NO", 2) == 0 && (map->line[i][2] == ' '))
-           map->count-> no_count++;
-        else if(ft_strncmp(map->line[i], "SO", 2) == 0 && (map->line[i][2] == ' '))
-            map->count->so_count++;
-        else if(ft_strncmp(map->line[i], "WE", 2) == 0 && (map->line[i][2] == ' '))
-            map->count->we_count++;
-        else if(ft_strncmp(map->line[i], "EA", 2) == 0 && (map->line[i][2] == ' '))
-            map->count->ea_count++;
-        else if(ft_strncmp(map->line[i], "F", 1) == 0 && (map->line[i][1] == ' '))
-            map->count->f_count++;
-        else if(ft_strncmp(map->line[i], "C", 1) == 0 && (map->line[i][1] == ' '))
-            map->count->c_count++;
-        i++;
-    }
-    if(map->count->no_count != 1 || map->count->so_count != 1 || map->count->we_count != 1 
-        || map->count->ea_count != 1 || map->count->f_count != 1 || map->count->c_count != 1)
-    {
-        printf("Error multiple textures !! \n");
-        free(map->count);
-        exit(1);
-    }
-}
-
-
-void check_textures(t_map *map, int *i)
-{
-    int count;
-
-    count = 0;
-    while(map->line[*i] && *i < 4)
-    {
-        if((ft_strncmp(map->line[*i], "NO", 2) == 0 
-            || ft_strncmp(map->line[*i], "SO", 2) == 0
-            || ft_strncmp(map->line[*i], "WE", 2) == 0
-            || ft_strncmp(map->line[*i], "EA", 2) == 0 ) && (map->line[*i][2] == ' '))
-        {
-            check_multiple(map);
-            count++;
-        }
-        (*i)++;
-    }
-    if(count != 4)
-        printf(" ERROR texture \n");
-}
-
-void check_fc(t_map *map, int *i)
-{
-    int count;
-
-    count = 0;
-    (*i)++;
-    while(map->line[*i] && count < 2)
-    {
-        
-        printf(" --> line = %s\n", map->line[*i]);
-        if((ft_strncmp(map->line[*i], "F", 1) || ft_strncmp(map->line[*i], "C", 1))
-            && (map->line[*i][1] == ' '))
-        {
-            count++;        
-        }
-        (*i)++;
-    }
-    if(count != 2)
-        printf(" ERROR floor and ceiling \n");
-}
-
-void check_map(t_map *map)
-{
-    int i;
-
-    i = 0;
-    check_textures(map, &i);
-    // printf("first line = %s\n", map->line[i]);
-    while (map->line[i] && ft_strchar(map->line[i], '\n') == 0)
+    while(value[i])
     {
         i++;
     }
-    check_fc(map, &i);
-    while (map->line[i] && ft_strchar(map->line[i], '\n') == 0)
+    // printf("i == %d \n", i);
+    return(i);
+}
+
+int check_path(const char *path)
+{
+    int fd;
+
+    fd = open(path, O_RDONLY);
+    int i = 0;
+    while(path[i])
     {
+        printf("i == ^[%c]^ \n", path[i]);
         i++;
     }
-    printf("after line = %s\n", map->line[i + 1]);
-    
+    if(fd < 0)
+    {
+        printf("Error ! invalid texture path : %s \n", path);
+        return(1);
+    }
+    close(fd);
+    return(0);
 }
+
+
+
 
 void init_data(t_map *map)
 {
     map->countlines = 0;
     map->line = NULL;
+    map->ea_texture = NULL;
+    map->we_texture = NULL;
+    map->no_texture = NULL;
+    map->so_texture = NULL;
+    map->c_color = NULL;
+    map->f_color = NULL;
     map->count = malloc(sizeof(t_count));
     if(!map->count)
         return;
@@ -243,6 +193,12 @@ int main(int ac, char **av)
     init_data(&map);
     get_map(av[1], &map);
     check_map(&map);
+// printf("----> texture ea ==  main %s \n", map.ea_texture);
+//   printf("----> texture we ==  main %s \n", map.we_texture);
+//   printf("----> texture no ==  main %s \n", map.no_texture);
+//   printf("----> texture so ==  main %s \n", map.so_texture);
+//   printf("----> texture f ==  main %s \n", map.f_color);
+//     printf("----> texture c ==  main %s \n", map.c_color);
     free_all(&map);
     return(0);
 }
