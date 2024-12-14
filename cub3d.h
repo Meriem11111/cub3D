@@ -6,7 +6,7 @@
 /*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/12 22:21:38 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/13 22:37:23 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ typedef struct s_map
     char *so_texture;
     char *we_texture;
     char *ea_texture;
-    char *f_color;
-    char *c_color;
+    int f_color;
+    int c_color;
 } t_map;
 
 

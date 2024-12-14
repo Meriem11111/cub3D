@@ -6,7 +6,7 @@
 /*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/12 23:06:49 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/13 22:53:08 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,12 +145,12 @@ int check_path(const char *path)
     int fd;
 
     fd = open(path, O_RDONLY);
-    int i = 0;
-    while(path[i])
-    {
-        printf("i == ^[%c]^ \n", path[i]);
-        i++;
-    }
+    // int i = 0;
+    // while(path[i])
+    // {
+    //     printf("i == ^[%c]^ \n", path[i]);
+    //     i++;
+    // }
     if(fd < 0)
     {
         printf("Error ! invalid texture path : %s \n", path);
@@ -171,8 +171,8 @@ void init_data(t_map *map)
     map->we_texture = NULL;
     map->no_texture = NULL;
     map->so_texture = NULL;
-    map->c_color = NULL;
-    map->f_color = NULL;
+    map->c_color = -1;
+    map->f_color = -1;
     map->count = malloc(sizeof(t_count));
     if(!map->count)
         return;

@@ -6,7 +6,7 @@
 /*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:28 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/12 21:54:47 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/13 22:51:47 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void free_all(t_map *map)
 {
     free_map(map);
     free(map->count);
-    free(map->c_color);
-    free(map->f_color);
     free(map->we_texture);
     free(map->so_texture);
     free(map->no_texture);
