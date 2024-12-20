@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
+/*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/13 22:53:08 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/20 17:09:49 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,12 +145,6 @@ int check_path(const char *path)
     int fd;
 
     fd = open(path, O_RDONLY);
-    // int i = 0;
-    // while(path[i])
-    // {
-    //     printf("i == ^[%c]^ \n", path[i]);
-    //     i++;
-    // }
     if(fd < 0)
     {
         printf("Error ! invalid texture path : %s \n", path);
@@ -159,9 +153,6 @@ int check_path(const char *path)
     close(fd);
     return(0);
 }
-
-
-
 
 void init_data(t_map *map)
 {
@@ -193,12 +184,14 @@ int main(int ac, char **av)
     init_data(&map);
     get_map(av[1], &map);
     check_map(&map);
-// printf("----> texture ea ==  main %s \n", map.ea_texture);
-//   printf("----> texture we ==  main %s \n", map.we_texture);
-//   printf("----> texture no ==  main %s \n", map.no_texture);
+  
+        
+    //printf("----> f color ==  main %d \n", map.c_color);
+//  printf("----> texture we ==  main %s \n", map.we_texture);
+   //printf("----> texture no ==  main %s \n", map.no_texture);
 //   printf("----> texture so ==  main %s \n", map.so_texture);
-//   printf("----> texture f ==  main %s \n", map.f_color);
-//     printf("----> texture c ==  main %s \n", map.c_color);
+//    printf("----> texture f ==  main %d \n", map.f_color);
+    //printf("----> texture c ==  main %d \n", map.c_color);
     free_all(&map);
     return(0);
 }

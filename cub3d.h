@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
+/*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/13 22:37:23 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/20 17:11:53 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,7 @@ void free_text(char **texture);
 char	**ft_split(char const *s, char c);
 void ini(t_map *map);
 int count_part(char **value);
+void check_first_last(t_map *map, int *i);
+int skp_spaces(char *line);
+void check_map_borders(t_map *map, int *i);
 #endif

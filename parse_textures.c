@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
+/*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:18:10 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/14 01:01:33 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/20 17:11:23 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	ft_strlen2(const char *str)
 		i++;
 	return (i);
 }
+
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*p;
@@ -105,7 +106,6 @@ int check_digit(char *value)
 
 int check_range(int range)
 {
-    printf("range %d\n", range);
     if(range < 0 || range > 255)
     {
         printf("error ! invalid color range \n");
@@ -135,6 +135,7 @@ char **check_format_color(char *line)
     }
     return(value);
 }
+
 void check_valid_color(char *line, int *color)
 {
     char **value;
@@ -187,56 +188,58 @@ void check_valid(char *line, char **path)
     }
 }
 
-void f_c_check(t_map *map, int *i)
+void f_c_check(t_map *map, int *i, int j)
 {
-    if(ft_strncmp(map->line[*i], "F", 1) == 0 && (map->line[*i][1] == ' '))
+    if(ft_strncmp(&map->line[*i][j], "F", 1) == 0 && (map->line[*i][j + 1] == ' '))
     {
         check_valid_color(map->line[*i], &map->f_color);
         map->count->f_count++;
     }
-    else if(ft_strncmp(map->line[*i], "C", 1) == 0 && (map->line[*i][1] == ' '))
+    else if(ft_strncmp(&map->line[*i][j], "C", 1) == 0 && (map->line[*i][j + 1] == ' ' ))
     {
         check_valid_color(map->line[*i], &map->c_color);
         map->count->c_count++;
     }
 }
 
-void process_line(t_map *map, int *i)
+void process_line(t_map *map, int *i, int j)
 {
-    if(ft_strncmp(map->line[*i], "NO", 2) == 0 && (map->line[*i][2] == ' '))
+    if(ft_strncmp(&map->line[*i][j], "NO", 2) == 0 && (map->line[*i][j + 2] == ' '))
     {
         check_valid(map->line[*i], &map->no_texture);
         map->count-> no_count++;
     }
-    else if(ft_strncmp(map->line[*i], "SO", 2) == 0 && (map->line[*i][2] == ' '))
+    else if(ft_strncmp(&map->line[*i][j], "SO", 2) == 0 && (map->line[*i][j + 2] == ' '))
     {
         check_valid(map->line[*i], &map->so_texture);
         map->count->so_count++;
     }
-    else if(ft_strncmp(map->line[*i], "WE", 2) == 0 && (map->line[*i][2] == ' '))
+    else if(ft_strncmp(&map->line[*i][j], "WE", 2) == 0 && (map->line[*i][j + 2] == ' '))
     {
         check_valid(map->line[*i], &map->we_texture);
         map->count->we_count++;
     }
-    else if(ft_strncmp(map->line[*i], "EA", 2) == 0 && (map->line[*i][2] == ' '))
+    else if(ft_strncmp(&map->line[*i][j], "EA", 2) == 0 && (map->line[*i][j + 2] == ' '))
     {
         check_valid(map->line[*i], &map->ea_texture);
         map->count->ea_count++;
     }
-    else if(ft_strncmp(map->line[*i], "F", 1) == 0 || ft_strncmp(map->line[*i], "C", 1) == 0)
-        f_c_check(map, i);
+    else if(ft_strncmp(&map->line[*i][j], "F", 1) == 0 || ft_strncmp(&map->line[*i][j], "C", 1) == 0)
+        f_c_check(map, i, j);
     (*i)++;
 }
 
 void check_multiple(t_map *map)
 {
     int i;
+    int j;
 
     i = 0;
     ini(map);
     while(map->line[i])
     {
-        process_line( map, &i);
+        j = skp_spaces(map->line[i]);
+        process_line( map, &i, j);
     }
     if(map->count->no_count != 1 || map->count->so_count != 1 || map->count->we_count != 1 
         || map->count->ea_count != 1 || map->count->f_count != 1 || map->count->c_count != 1)
@@ -251,35 +254,39 @@ void check_multiple(t_map *map)
 void check_textures(t_map *map, int *i)
 {
     int count;
-
+    int j;
+    
     count = 0;
+    j = 0;
     while(map->line[*i] && *i < 4)
     {
-        if((ft_strncmp(map->line[*i], "NO", 2) == 0 
-            || ft_strncmp(map->line[*i], "SO", 2) == 0
-            || ft_strncmp(map->line[*i], "WE", 2) == 0
-            || ft_strncmp(map->line[*i], "EA", 2) == 0 ) && (map->line[*i][2] == ' '))
+        j = skp_spaces(map->line[*i]);
+        if((ft_strncmp(&map->line[*i][j], "NO", 2) == 0 
+            || ft_strncmp(&map->line[*i][j], "SO", 2 ) == 0
+            ||ft_strncmp(&map->line[*i][j], "WE", 2) == 0
+            || ft_strncmp(&map->line[*i][j], "EA", 2) == 0 ) && (map->line[*i][j + 2] == ' '))
         {
             count++;
         }
         (*i)++;
-    }
+    }   
     if(count != 4)
+    {
         printf(" ERROR texture \n");
+    }
 }
 
 void check_fc(t_map *map, int *i)
 {
     int count;
+    int j;
 
     count = 0;
-    (*i)++;
     while(map->line[*i] && count < 2)
     {
-        
-       // printf(" --> line = %s\n", map->line[*i]);
-        if((ft_strncmp(map->line[*i], "F", 1) || ft_strncmp(map->line[*i], "C", 1))
-            && (map->line[*i][1] == ' '))
+        j = skp_spaces(map->line[*i]);
+        if((ft_strncmp(&map->line[*i][j], "F", 1) || ft_strncmp(&map->line[*i][j], "C", 1))
+            && (map->line[*i][j + 1] == ' '))
         {
             count++;        
         }
@@ -289,6 +296,27 @@ void check_fc(t_map *map, int *i)
         printf(" ERROR floor and ceiling \n");
 }
 
+void skp_line(t_map *map, int *i)
+{
+    while (map->line[*i])
+    {
+        if(map->line[*i][0] == '\n')
+        {
+            (*i)++;
+        }
+        else
+            break;
+    }
+}
+
+
+void check_valid_map(t_map *map, int *i)
+{
+    // printf("i == %d \n", *i);
+    check_first_last(map, i);
+    check_map_borders(map, i);
+    
+}
 
 void check_map(t_map *map)
 {
@@ -296,17 +324,11 @@ void check_map(t_map *map)
 
     i = 0;
     check_textures(map, &i);
-    // printf("first line = %s\n", map->line[i]);
-    while (map->line[i] && ft_strchar(map->line[i], '\n') == 0)
-    {
-        i++;
-    }
+    skp_line(map, &i);
     check_fc(map, &i);
     check_multiple(map);
-    while (map->line[i] && ft_strchar(map->line[i], '\n') == 0)
-    {
-        i++;
-    }
-    //printf("after line = %s\n", map->line[i + 1]);
+    skp_line(map, &i);
+    check_valid_map(map, &i);
+    
     // check_valid(map);
 }
