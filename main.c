@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/21 10:09:05 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:13:58 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int ft_countlines(char *av)
     if(count == 0)
     {
         printf("error ! empty file \n");
+        free(line);
         exit(0);
     }
     return(count);
@@ -164,8 +165,8 @@ void init_data(t_map *map)
     map->we_texture = NULL;
     map->no_texture = NULL;
     map->so_texture = NULL;
-    map->c_color = -1;
-    map->f_color = -1;
+    ft_memset(map->c_color, -1, sizeof(map->c_color));
+    ft_memset(map->f_color, -1, sizeof(map->f_color));
     map->count = malloc(sizeof(t_count));
     if(!map->count)
         return;
@@ -200,8 +201,8 @@ int main(int ac, char **av)
 //  printf("----> texture we ==  main %s \n", map.we_texture);
    //printf("----> texture no ==  main %s \n", map.no_texture);
 //   printf("----> texture so ==  main %s \n", map.so_texture);
-//    printf("----> texture f ==  main %d \n", map.f_color);
-    //printf("----> texture c ==  main %d \n", map.c_color);
+//    printf("----> texture f ==  main %d \n", map.f_color[1]);
+//     printf("----> texture c ==  main %d \n", map.c_color[1]);
     free_all(&map);
     return(0);
 }

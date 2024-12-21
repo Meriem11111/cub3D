@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/21 11:36:54 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/21 12:21:14 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ typedef struct s_map
     char *so_texture;
     char *we_texture;
     char *ea_texture;
-    int f_color;
-    int c_color;
+    int f_color[3];
+    int c_color[3];
     int countlines_map;
     int s;
     int w;
@@ -76,4 +76,5 @@ void free_map2(t_map *map);
 char	*ft_strtrim(char const *s1, char const *set);
 int	ft_atoi(const char *str);
 int check_digit(char *value);
+void	*ft_memset(void *str, int c, size_t n);
 #endif

@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:18:10 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/21 11:37:55 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/21 15:12:14 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int check_range(int range)
 char **check_format_color(char *line)
 {
     char **value;
+    char **color_parts;
     
     value = ft_split(line, ' ');
     if(!value || count_part(value) != 2)
@@ -34,14 +35,15 @@ char **check_format_color(char *line)
         free_text(value);
         exit(1);
     }
-    value = ft_split(value[1], ',');
-    if(!value || count_part(value) != 3)
+    color_parts = ft_split(value[1], ',');
+    free_text(value);
+    if(!color_parts || count_part(color_parts) != 3)
     {
         printf("Error! invalid color format \n");
-        free_text(value);
+        free_text(color_parts);
         exit(1);
     }
-    return(value);
+    return(color_parts);
 }
 
 void check_valid_color(char *line, int *color)
@@ -60,8 +62,8 @@ void check_valid_color(char *line, int *color)
             free_text(value);
             exit(1);
         }
-        *color = ft_atoi(value[i]);
-        if(check_range(*color) != 0)
+        color[i] = ft_atoi(value[i]);
+        if(check_range(color[i]) != 0)
         {
             free_text(value);
             exit(1);
@@ -74,6 +76,7 @@ void check_valid_color(char *line, int *color)
 void check_valid(char *line, char **path)
 {
     char **value;
+    char *temp;
 
     value = ft_split(line, ' ');
     if(!value || count_part(value) != 2)
@@ -82,7 +85,9 @@ void check_valid(char *line, char **path)
         free_text(value);
         exit(1);
     }
-    *path = ft_strtrim(ft_strdup(value[1]), "\n");
+    temp = ft_strdup(value[1]);
+    *path = ft_strtrim(temp, "\n");
+    free(temp);
    // printf("Trimmed path: '%s'\n", *path);  // Check the path after trimming.
     if(!*path)
     {
@@ -92,6 +97,7 @@ void check_valid(char *line, char **path)
     free_text(value);
     if(check_path(*path) != 0)
     {
+        free_text(path);
         exit(1);
     }
 }
@@ -100,12 +106,12 @@ void f_c_check(t_map *map, int *i, int j)
 {
     if(ft_strncmp(&map->line[*i][j], "F", 1) == 0 && (map->line[*i][j + 1] == ' '))
     {
-        check_valid_color(map->line[*i], &map->f_color);
+        check_valid_color(map->line[*i], map->f_color);
         map->count->f_count++;
     }
     else if(ft_strncmp(&map->line[*i][j], "C", 1) == 0 && (map->line[*i][j + 1] == ' ' ))
     {
-        check_valid_color(map->line[*i], &map->c_color);
+        check_valid_color(map->line[*i], map->c_color);
         map->count->c_count++;
     }
 }
@@ -181,6 +187,8 @@ void check_textures(t_map *map, int *i)
     if(count != 4)
     {
         printf(" ERROR texture \n");
+        free_all(map);
+        exit(0);
     }
 }
 
@@ -201,7 +209,11 @@ void check_fc(t_map *map, int *i)
         (*i)++;
     }
     if(count != 2)
+    {
         printf(" ERROR floor and ceiling \n");
+        free_all(map);
+        exit(0); 
+    }    
 }
 
 void skp_line(t_map *map, int *i)
@@ -238,6 +250,16 @@ void get_map2(t_map *map, int *i)
     map->map_copy[k] = NULL;
 }
 
+void check_player(t_map *map, int j, int i)
+{
+    if(map->map_copy[i + 1][j] == '1' && map->map_copy[i - 1][j] == '1'
+        && map->map_copy[i][j + 1] == '1' && map->map_copy[i][j - 1] == '1' )
+    {
+        printf("Error ! player surrounded by walls \n");
+        free_all(map);
+        exit(0);
+    }
+}
 void pos_player(t_map *map)
 {
     int i;
@@ -251,10 +273,12 @@ void pos_player(t_map *map)
         len = ft_strlen(map->map_copy[i]) - 1;
         while (j < len)
         {
-            if(map->map_copy[i][j] == 'N' || map->map_copy[i][j] == 'S' || map->map_copy[i][j] == 'E' || map->map_copy[i][j] == 'W')
+            if(map->map_copy[i][j] == 'N' || map->map_copy[i][j] == 'S' 
+                || map->map_copy[i][j] == 'E' || map->map_copy[i][j] == 'W')
             {
                 map->x_p = j;
                 map->y_p = i;
+                check_player(map, map->x_p, map->y_p);
                 return;
             }
             j++;
@@ -266,7 +290,6 @@ void pos_player(t_map *map)
 
 void check_valid_map(t_map *map, int *i)
 {
-    // printf("i == %d \n", *i);
     check_first_last(map, i);
     check_map_borders(map, i);
     check_characters(map, i);
@@ -286,5 +309,4 @@ void check_map(t_map *map)
     check_multiple(map);
     skp_line(map, &i);
     check_valid_map(map, &i);
-    // check_valid(map);
 }

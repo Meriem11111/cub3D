@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 11:06:40 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/21 11:36:06 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/21 12:21:05 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,4 +151,19 @@ int check_digit(char *value)
             return(1);
     }
     return(0);
+}
+
+void	*ft_memset(void *str, int c, size_t n)
+{
+	unsigned char	*s;
+	size_t			i;
+
+	i = 0;
+	s = (unsigned char *)str;
+	while (i < n)
+	{
+		s[i] = (unsigned char)c;
+		i++;
+	}
+	return (s);
 }
