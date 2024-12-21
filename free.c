@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
+/*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:28 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/13 22:51:47 by meriem           ###   ########.fr       */
+/*   Updated: 2024/12/21 11:17:48 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@ void free_map(t_map *map)
         i++;
     }
     free(map->line);
+}
+
+void free_map2(t_map *map)
+{
+    int i;
+
+    i = 0;
+    while (i < map->countlines_map)
+    {
+        free(map->map_copy[i]);
+        i++;
+    }
+    free(map->map_copy);
 }
 
 void free_text(char **texture)

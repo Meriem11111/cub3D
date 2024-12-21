@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/20 17:09:49 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/21 10:09:05 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,8 @@ void init_data(t_map *map)
 {
     map->countlines = 0;
     map->line = NULL;
+    map->file_name = NULL;
+    map->map_copy = NULL;
     map->ea_texture = NULL;
     map->we_texture = NULL;
     map->no_texture = NULL;
@@ -167,6 +169,13 @@ void init_data(t_map *map)
     map->count = malloc(sizeof(t_count));
     if(!map->count)
         return;
+    map->countlines_map = 0;
+    map->s = 0;
+    map->w = 0;
+    map->e = 0;
+    map->n = 0;
+    map->x_p = 0;
+    map->y_p = 0;
 }
 
 int main(int ac, char **av)
@@ -183,6 +192,7 @@ int main(int ac, char **av)
     check_file(av[1]);
     init_data(&map);
     get_map(av[1], &map);
+    map.file_name = av[1];
     check_map(&map);
   
         

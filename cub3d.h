@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/20 17:11:53 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/21 11:36:54 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@ typedef struct s_count
 typedef struct s_map
 {
     char **line;
+    char **map_copy;
     int countlines;
+    int x_p;
+    int y_p;
+    char *file_name;
     t_count *count;
     char *no_texture;
     char *so_texture;
@@ -42,6 +46,11 @@ typedef struct s_map
     char *ea_texture;
     int f_color;
     int c_color;
+    int countlines_map;
+    int s;
+    int w;
+    int e;
+    int n;
 } t_map;
 
 
@@ -59,4 +68,12 @@ int count_part(char **value);
 void check_first_last(t_map *map, int *i);
 int skp_spaces(char *line);
 void check_map_borders(t_map *map, int *i);
+void check_characters(t_map *map, int *i);
+void ft_error(t_map *map);
+void file_err(int i);
+void check_spaces(t_map *map);
+void free_map2(t_map *map);
+char	*ft_strtrim(char const *s1, char const *set);
+int	ft_atoi(const char *str);
+int check_digit(char *value);
 #endif

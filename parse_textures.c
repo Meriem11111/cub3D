@@ -6,103 +6,11 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:18:10 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/20 17:11:23 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/21 11:37:55 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-static int	ft_check(char const *s, char c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-int	ft_strlen2(const char *str)
-{
-	int	i;
-
-	if (str == NULL)
-		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	char	*p;
-	int		i;
-	int		l;
-	int		j;
-
-	if (!s1 || !set)
-		return (NULL);
-	i = 0;
-	if (!s1[i])
-		return (ft_strdup(""));
-	while (ft_check(set, s1[i]))
-		i++;
-	l = ft_strlen2(s1);
-	while (ft_check(set, s1[l - 1]))
-		l--;
-	p = (char *)malloc(l - i + 1);
-	if (!p)
-		return (0);
-	j = 0;
-	while (i < l)
-		p[j++] = s1[i++];
-	p[j] = '\0';
-	return (p);
-}
-
-int	ft_atoi(const char *str)
-{
-	int	i;
-	int	sign;
-	int	res;
-
-	i = 0;
-	sign = 1;
-	res = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		res = (res * 10) + (str[i] - '0');
-		i++;
-	}
-	return (res * sign);
-}
-
-int check_digit(char *value)
-{
-    int i;
-
-    i = 0;
-    while(value[i])
-    {
-        if(value[i] >= '0' && value[i] <= '9')
-            i++;
-        else
-            return(1);
-    }
-    return(0);
-}
 
 int check_range(int range)
 {
@@ -309,13 +217,62 @@ void skp_line(t_map *map, int *i)
     }
 }
 
+void get_map2(t_map *map, int *i)
+{
+    int j;
+    int k;
+    
+    j = *i;
+    k = 0;
+    if(map->countlines_map == 0)
+        file_err(3);
+    map->map_copy = malloc(sizeof(char *) * (map->countlines_map + 1));
+    if(!map->map_copy)
+        exit(1);
+    while(map->line[j])
+    {
+        map->map_copy[k] = map->line[j];
+        j++;
+        k++;
+    }
+    map->map_copy[k] = NULL;
+}
+
+void pos_player(t_map *map)
+{
+    int i;
+    int j;
+    int len;
+
+    i = 0;
+    while(i < map->countlines_map)
+    {
+        j = 0;
+        len = ft_strlen(map->map_copy[i]) - 1;
+        while (j < len)
+        {
+            if(map->map_copy[i][j] == 'N' || map->map_copy[i][j] == 'S' || map->map_copy[i][j] == 'E' || map->map_copy[i][j] == 'W')
+            {
+                map->x_p = j;
+                map->y_p = i;
+                return;
+            }
+            j++;
+        }
+        i++;
+    }
+}
+
 
 void check_valid_map(t_map *map, int *i)
 {
     // printf("i == %d \n", *i);
     check_first_last(map, i);
     check_map_borders(map, i);
-    
+    check_characters(map, i);
+    get_map2(map, i);
+    pos_player(map);
+    check_spaces(map);
 }
 
 void check_map(t_map *map)
@@ -329,6 +286,5 @@ void check_map(t_map *map)
     check_multiple(map);
     skp_line(map, &i);
     check_valid_map(map, &i);
-    
     // check_valid(map);
 }
