@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:18:10 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/21 15:12:14 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/22 11:58:52 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,18 @@ int check_range(int range)
     return(0);
 }
 
-char **check_format_color(char *line)
+char **check_format_color(char *line, int flag)
 {
     char **value;
     char **color_parts;
     
-    value = ft_split(line, ' ');
-    if(!value || count_part(value) != 2)
+    if(count_comma(line) != 2)
+        file_err(4);
+    if(flag == 0)
+        value = ft_split(line, 'F');
+    else 
+        value = ft_split(line, 'C');
+    if(!value || count_part(value) < 2)
     {
         printf("Error! invalid format\n");
         free_text(value);
@@ -37,7 +42,7 @@ char **check_format_color(char *line)
     }
     color_parts = ft_split(value[1], ',');
     free_text(value);
-    if(!color_parts || count_part(color_parts) != 3)
+    if(!color_parts )
     {
         printf("Error! invalid color format \n");
         free_text(color_parts);
@@ -46,17 +51,46 @@ char **check_format_color(char *line)
     return(color_parts);
 }
 
-void check_valid_color(char *line, int *color)
+
+// char **check_format_color(char *line)
+// {
+//     char **value;
+//     char **color_parts;
+    
+//     value = ft_split(line, ' ');
+//     if(!value || count_part(value) != 2)
+//     {
+//         printf("Error! invalid format\n");
+//         free_text(value);
+//         exit(1);
+//     }
+//     color_parts = ft_split(value[1], ',');
+//     free_text(value);
+//     if(!color_parts || count_part(color_parts) != 3)
+//     {
+//         printf("Error! invalid color format \n");
+//         free_text(color_parts);
+//         exit(1);
+//     }
+//     return(color_parts);
+// }
+
+void check_valid_color(char *line, int *color, int flag)
 {
     char **value;
     int i;
+    int j;
     
-    value = check_format_color(line);
+    value = check_format_color(line, flag);
     i = 0;
+    j = 0;
     while(i < 3)
     {
         value[i] = ft_strtrim(value[i], " \n");
-        if(check_digit(value[i]) != 0)
+        if(value[i][j] == '+')
+            j++;
+        skp_spaces(value[i]);
+        if(check_digit(&value[i][j]) != 0)
         {
             printf("Error: Color values must be digits\n");
             free_text(value);
@@ -88,7 +122,6 @@ void check_valid(char *line, char **path)
     temp = ft_strdup(value[1]);
     *path = ft_strtrim(temp, "\n");
     free(temp);
-   // printf("Trimmed path: '%s'\n", *path);  // Check the path after trimming.
     if(!*path)
     {
        free_text(value);
@@ -97,7 +130,7 @@ void check_valid(char *line, char **path)
     free_text(value);
     if(check_path(*path) != 0)
     {
-        free_text(path);
+       free_text(path);
         exit(1);
     }
 }
@@ -106,12 +139,12 @@ void f_c_check(t_map *map, int *i, int j)
 {
     if(ft_strncmp(&map->line[*i][j], "F", 1) == 0 && (map->line[*i][j + 1] == ' '))
     {
-        check_valid_color(map->line[*i], map->f_color);
+        check_valid_color(map->line[*i], map->f_color, 0);
         map->count->f_count++;
     }
     else if(ft_strncmp(&map->line[*i][j], "C", 1) == 0 && (map->line[*i][j + 1] == ' ' ))
     {
-        check_valid_color(map->line[*i], map->c_color);
+        check_valid_color(map->line[*i], map->c_color , 1);
         map->count->c_count++;
     }
 }
@@ -158,7 +191,7 @@ void check_multiple(t_map *map)
     if(map->count->no_count != 1 || map->count->so_count != 1 || map->count->we_count != 1 
         || map->count->ea_count != 1 || map->count->f_count != 1 || map->count->c_count != 1)
     {
-        printf("Error multiple textures !! \n");
+        printf("Error textures !! \n");
         free(map->count);
         exit(1);
     }
@@ -287,7 +320,6 @@ void pos_player(t_map *map)
     }
 }
 
-
 void check_valid_map(t_map *map, int *i)
 {
     check_first_last(map, i);
@@ -308,5 +340,11 @@ void check_map(t_map *map)
     check_fc(map, &i);
     check_multiple(map);
     skp_line(map, &i);
+    if (!map->line[i])
+    {
+		printf("Map doesn't exist!\n");
+        free_all(map);
+        exit(1);
+    }
     check_valid_map(map, &i);
 }

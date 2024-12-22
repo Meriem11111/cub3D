@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/21 14:13:58 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/22 13:02:11 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void file_err(int i)
     if(i == 3)
     {
         printf("Error ! empty map \n");
+        exit(1);
+    }
+    if(i == 4)
+    {
+        printf("error ! comma count \n");
         exit(1);
     }
 }
@@ -137,8 +142,29 @@ int count_part(char **value)
     {
         i++;
     }
-    // printf("i == %d \n", i);
     return(i);
+}
+int count_comma(char *value)
+{
+    int j;
+    int count;
+    char *str;
+     
+    if(!value)
+        return(0);
+    count = 0;
+    j = 0;
+    str = ft_strtrim(value, "\n");
+    while(str[j])
+    {
+        if(str[j] == ',')
+        {
+            count++;
+        }
+        j++;
+    }
+    free(str);
+    return(count);
 }
 
 int check_path(const char *path)
@@ -179,6 +205,12 @@ void init_data(t_map *map)
     map->y_p = 0;
 }
 
+void	delete_window(t_map *map)
+{
+	mlx_destroy_window((map)->mlx, (map)->win);
+	exit(0);
+}
+
 int main(int ac, char **av)
 {
     t_map map;
@@ -195,14 +227,14 @@ int main(int ac, char **av)
     get_map(av[1], &map);
     map.file_name = av[1];
     check_map(&map);
-  
-        
-    //printf("----> f color ==  main %d \n", map.c_color);
-//  printf("----> texture we ==  main %s \n", map.we_texture);
-   //printf("----> texture no ==  main %s \n", map.no_texture);
-//   printf("----> texture so ==  main %s \n", map.so_texture);
-//    printf("----> texture f ==  main %d \n", map.f_color[1]);
-//     printf("----> texture c ==  main %d \n", map.c_color[1]);
+    map.mlx = mlx_init();
+    if (map.mlx == NULL)
+	{
+		return (1);
+	}
+    map.win = mlx_new_window(map.mlx, 600, 400, "test");
+    mlx_hook(map.win, 17, 0, (void *)delete_window, &map);
+    mlx_loop(map.mlx);
     free_all(&map);
     return(0);
 }

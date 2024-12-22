@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/21 12:21:14 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/22 12:11:35 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
+#include <mlx.h>
 # include <string.h>
 # include <unistd.h>
 
@@ -51,6 +52,8 @@ typedef struct s_map
     int w;
     int e;
     int n;
+    void *mlx;
+    void *win;
 } t_map;
 
 
@@ -77,4 +80,6 @@ char	*ft_strtrim(char const *s1, char const *set);
 int	ft_atoi(const char *str);
 int check_digit(char *value);
 void	*ft_memset(void *str, int c, size_t n);
+int count_comma(char *value);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:04:01 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/21 14:16:58 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/22 11:06:35 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ void check_map_borders(t_map *map, int *i)
     while(map->line[k])
     {
         j = skp_spaces(map->line[k]);
+        if (map->line[k][0] == '\n') 
+        {
+            k++;
+            continue;
+        }
         if(map->line[k][j] != '1' || (map->line[k][ft_strlen(map->line[k]) - 2] != '1' 
             && map->line[k][ft_strlen(map->line[k]) - 2] != ' ' && map->line[k][ft_strlen(map->line[k]) - 2] != '\t'))
         {

@@ -1,7 +1,8 @@
 NAME = cub3D
 CC = cc 
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 src = main.c utils.c parse_textures.c check_errors.c free.c ft_split.c ./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c
+MLX = -lmlx_Linux -lXext -lX11 -lm
 
 OBJ = $(src:.c=.o)
 
@@ -16,7 +17,7 @@ RESET = \033[0m
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-		@ $(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+		@ $(CC) $(CFLAGS) $(OBJ) $(MLX) -o $(NAME)
 		@echo $(GREEN0) ✨ Compilation done ✨ 
 clean :
 		@echo $(RED) cleaning.. 
