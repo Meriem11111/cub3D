@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/22 12:11:35 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/23 14:01:44 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_map
     int n;
     void *mlx;
     void *win;
+    int len;
 } t_map;
 
 
@@ -81,5 +82,5 @@ int	ft_atoi(const char *str);
 int check_digit(char *value);
 void	*ft_memset(void *str, int c, size_t n);
 int count_comma(char *value);
-
+void pos_player(t_map *map);
 #endif

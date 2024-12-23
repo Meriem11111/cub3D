@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/22 13:02:11 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/23 14:01:33 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,12 +203,103 @@ void init_data(t_map *map)
     map->n = 0;
     map->x_p = 0;
     map->y_p = 0;
+    map->len = 0;
 }
 
 void	delete_window(t_map *map)
 {
 	mlx_destroy_window((map)->mlx, (map)->win);
 	exit(0);
+}
+
+void draw_circle(t_map *map)
+{
+    int dx =0;
+    int r = 10;
+    int dy = r;
+
+    int d = 1-r;
+    while(dx <= dy)
+    {
+        mlx_pixel_put(map->mlx, map->win, (map->x_p * 20) + dx , (map->y_p * 50) + dy,  0x00FF0000);
+        mlx_pixel_put(map->mlx, map->win, (map->x_p * 20 ) - dx , (map->y_p *50) - dy,  0x00FF0000);
+        mlx_pixel_put(map->mlx, map->win, (map->x_p  * 20) - dx , (map->y_p *50) + dy,  0x00FF0000);
+        mlx_pixel_put(map->mlx, map->win, (map->x_p  * 20) + dx , (map->y_p *50) - dy,  0x00FF0000);
+        mlx_pixel_put(map->mlx, map->win, (map->x_p  * 20) + dy , (map->y_p *50) + dx,  0x00FF0000);
+        mlx_pixel_put(map->mlx, map->win, (map->x_p  * 20) - dy , (map->y_p *50) + dx,  0x00FF0000);
+        mlx_pixel_put(map->mlx, map->win, (map->x_p * 20) - dy , (map->y_p *50) - dx,  0x00FF0000);
+        mlx_pixel_put(map->mlx, map->win, (map->x_p * 20 ) + dy , (map->y_p *50) - dx,  0x00FF0000);
+         if (d < 0)
+        {
+            d = d + 2 * dx + 3;
+        }
+        else
+        {
+            d = d + 2 * (dx - dy) + 5;
+            dy--; 
+        }
+        dx++; 
+    }
+}
+
+
+void draw(t_map *map , int y, int x)
+{
+    int height = 50;
+    int width = 20;
+    int i;
+    int j = y * height;
+
+    while(j < (y + 1) * height)
+    {
+        i = x * width;
+        while(i < (x + 1) *width)
+        {
+            mlx_pixel_put(map->mlx, map->win, i, j, 0xFF00);
+            i++;
+        }
+        j++;
+    }
+    
+}
+
+void draw_rect(t_map *map)
+{
+    int i =0;
+    int j;
+
+    while(map->map_copy[i])
+    {
+        j = 0;
+        while(map->map_copy[i][j])
+        {
+            if(map->map_copy[i][j] == '1')
+            {
+                draw(map, i , j);
+            }
+            j++;
+        }
+        i++;
+    }
+}
+
+
+int	key_hook(int keycode, t_map *map)
+{
+	pos_player(map);
+	if (keycode == 2)
+		to_right(map);
+	else if (keycode == 0)
+		to_left(map);
+	else if (keycode == 13)
+		to_up(map);
+	else if (keycode == 1)
+		to_down(map);
+	else if (keycode == 53)
+		delete_window(map);
+	mlx_clear_window((*map)->mlx, (*map)->win);
+	print_window(*map);
+	return (0);
 }
 
 int main(int ac, char **av)
@@ -227,12 +318,18 @@ int main(int ac, char **av)
     get_map(av[1], &map);
     map.file_name = av[1];
     check_map(&map);
+    printf("line = %d\n", map.countlines_map);
+    printf("len = %d\n", map.len);
     map.mlx = mlx_init();
     if (map.mlx == NULL)
 	{
 		return (1);
 	}
-    map.win = mlx_new_window(map.mlx, 600, 400, "test");
+    map.win = mlx_new_window(map.mlx, map.len * 20, map.countlines_map * 50, "cub");
+    draw_circle(&map);
+    draw_rect(&map);
+    
+    mlx_hook(data->win, 2, 0L, key_hook, &map);
     mlx_hook(map.win, 17, 0, (void *)delete_window, &map);
     mlx_loop(map.mlx);
     free_all(&map);

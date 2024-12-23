@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:18:10 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/22 11:58:52 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/23 13:20:18 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,31 @@ void skp_line(t_map *map, int *i)
     }
 }
 
+void get_len(t_map *map)
+{
+    int count;
+    int i;
+    int j;
+
+    count = 0;
+    i = 0;
+    while(map->map_copy[i])
+    {
+        j = 0;
+        while(map->map_copy[i][j] != '\0')
+        {
+            count++;
+            j++;
+        }
+        if(map->len < count)
+        {
+            map->len = count;
+        }
+        count = 0;
+        i++;
+    }
+}
+
 void get_map2(t_map *map, int *i)
 {
     int j;
@@ -281,6 +306,8 @@ void get_map2(t_map *map, int *i)
         k++;
     }
     map->map_copy[k] = NULL;
+    get_len(map);
+    
 }
 
 void check_player(t_map *map, int j, int i)
