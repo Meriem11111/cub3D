@@ -1,7 +1,7 @@
 NAME = cub3D
 CC = cc 
 CFLAGS = -Wall -Werror -Wextra #-fsanitize=address
-src = main.c utils.c parse_textures.c check_errors.c free.c ft_split.c ./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c
+src = main.c utils.c parse_textures.c check_errors.c moves.c free.c ft_split.c ./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c
 MLX = -lmlx_Linux -lXext -lX11 -lm
 
 OBJ = $(src:.c=.o)

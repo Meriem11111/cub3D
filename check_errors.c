@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:04:01 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/22 11:06:35 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/25 15:15:16 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void check_last(t_map *map, int *i)
     {
        if(map->line[k - 1][j] != '1' && map->line[k - 1][j] != ' ' && map->line[k - 1][j] != '\t')
        {
-            printf("Error ! invalid border \n ");
+            printf("Error \n invalid border \n ");
             free_all(map);
             exit(0);
        }
@@ -52,7 +52,7 @@ void check_first_last(t_map *map, int *i)
     {
        if(map->line[k][j] != '1' && map->line[k][j] != ' ' && map->line[k][j] != '\t')
        {
-            printf("Error ! invalid border \n ");
+            printf("Error \n invalid border \n ");
             free_all(map);
             exit(0);
        }
@@ -90,7 +90,8 @@ void check_map_borders(t_map *map, int *i)
         if(map->line[k][j] != '1' || (map->line[k][ft_strlen(map->line[k]) - 2] != '1' 
             && map->line[k][ft_strlen(map->line[k]) - 2] != ' ' && map->line[k][ft_strlen(map->line[k]) - 2] != '\t'))
         {
-            printf("Error ! not surrounded by walls !");
+            printf("Error\n Invalid map !\n");
+            printf(" -------->k == %d \n", k);
             free_all(map);
             exit (0);
         }
@@ -120,7 +121,7 @@ void check_characters(t_map *map, int *i)
             else if(map->line[k][j] != '1' && map->line[k][j] != '0'
                 && map->line[k][j] != ' ' && map->line[k][j] != '\t')
             {
-                printf("Error ! Unknown character \n");
+                printf("Error\n Unknown character \n");
                 free_all(map);
                 exit(0);
             }
@@ -138,13 +139,13 @@ void ft_error(t_map *map)
     count = map->e + map->w + map->n + map->s;
     if(count == 0)
     {
-        printf("error ! missing player !\n");
+        printf("error \n missing player !\n");
         free_all(map);
         exit(0);
     }
     else if(count != 1)
     {
-        printf("error ! more than one player found!\n");
+        printf("error \n more than one player found!\n");
         free_all(map);
         exit(0);
     }
@@ -157,7 +158,7 @@ void verify_space(t_map *map, int i, int j)
         || (map->map_copy[i][j + 1] == ' ' || map->map_copy[i][j + 1] == '\t' ||  map->map_copy[i][j + 1] == '\n') 
         || (map->map_copy[i][j - 1] == ' ' || map->map_copy[i][j - 1] == '\t'||  map->map_copy[i][j - 1] == '\n' ))
         {
-            printf("Error! '0' is surrounded by spaces at line %d, column %d\n", i, j);
+            printf("Error\n '0' is surrounded by spaces at line %d, column %d\n", i, j);
             free_all(map);
             exit(1); 
         }

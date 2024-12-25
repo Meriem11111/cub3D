@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/23 14:01:33 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/25 14:51:19 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,12 @@ void get_map(char *av, t_map *map)
     if(!map->line)
         exit(1);
     line = get_next_line(fd);
-    if(line[0] == '\n')
-    {
-        printf("ERROR new_line first row \n");
-        free(line);
-        exit(1);
-    }
+    // if(line[0] == '\n')
+    // {
+    //     printf("ERROR new_line first row \n");
+    //     free(line);
+    //     exit(0);
+    // }
     while(line)
     {
         map->line[i] = line;
@@ -287,18 +287,23 @@ void draw_rect(t_map *map)
 int	key_hook(int keycode, t_map *map)
 {
 	pos_player(map);
-	if (keycode == 2)
+    printf("herrree \n");
+	if (keycode == 100)
 		to_right(map);
-	else if (keycode == 0)
+	else if (keycode == 97)
 		to_left(map);
-	else if (keycode == 13)
+	else if (keycode == 119)
 		to_up(map);
-	else if (keycode == 1)
+	else if (keycode == 115)
 		to_down(map);
-	else if (keycode == 53)
+	else if (keycode == 65307)
+    {
+        printf("3333333333\n");
 		delete_window(map);
-	mlx_clear_window((*map)->mlx, (*map)->win);
-	print_window(*map);
+    }
+	mlx_clear_window(map->mlx, map->win);
+    draw_circle(map);
+    draw_rect(map);
 	return (0);
 }
 
@@ -328,8 +333,7 @@ int main(int ac, char **av)
     map.win = mlx_new_window(map.mlx, map.len * 20, map.countlines_map * 50, "cub");
     draw_circle(&map);
     draw_rect(&map);
-    
-    mlx_hook(data->win, 2, 0L, key_hook, &map);
+    mlx_hook(map.win, 02, 1L << 0, key_hook, &map);
     mlx_hook(map.win, 17, 0, (void *)delete_window, &map);
     mlx_loop(map.mlx);
     free_all(&map);

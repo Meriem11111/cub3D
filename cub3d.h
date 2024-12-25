@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/23 14:01:44 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/25 11:53:55 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,10 @@ int check_digit(char *value);
 void	*ft_memset(void *str, int c, size_t n);
 int count_comma(char *value);
 void pos_player(t_map *map);
+
+
+void to_left(t_map *map);
+void to_right(t_map *map);
+void to_down(t_map *map);
+void to_up(t_map *map);
 #endif
