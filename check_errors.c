@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:04:01 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/25 15:15:16 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/25 20:20:49 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void verify_space(t_map *map, int i, int j)
         {
             printf("Error\n '0' is surrounded by spaces at line %d, column %d\n", i, j);
             free_all(map);
-            exit(1); 
+            exit(0); 
         }
     
 }

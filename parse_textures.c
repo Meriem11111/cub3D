@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:18:10 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/25 15:16:44 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/25 20:21:57 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char **check_format_color(char *line, int flag)
     {
         printf("Error! invalid format\n");
         free_text(value);
-        exit(1);
+        exit(0);
     }
     color_parts = ft_split(value[1], ',');
     free_text(value);
@@ -46,7 +46,7 @@ char **check_format_color(char *line, int flag)
     {
         printf("Error! invalid color format \n");
         free_text(color_parts);
-        exit(1);
+        exit(0);
     }
     return(color_parts);
 }
@@ -94,13 +94,13 @@ void check_valid_color(char *line, int *color, int flag)
         {
             printf("Error: Color values must be digits\n");
             free_text(value);
-            exit(1);
+            exit(0);
         }
         color[i] = ft_atoi(value[i]);
         if(check_range(color[i]) != 0)
         {
             free_text(value);
-            exit(1);
+            exit(0);
         }
         i++;
     }
@@ -117,7 +117,7 @@ void check_valid(char *line, char **path)
     {
         printf("Error ! invalid texture \n");
         free_text(value);
-        exit(1);
+        exit(0);
     }
     temp = ft_strdup(value[1]);
     *path = ft_strtrim(temp, "\n");
@@ -125,13 +125,13 @@ void check_valid(char *line, char **path)
     if(!*path)
     {
        free_text(value);
-       exit(1);
+       exit(0);
     }
     free_text(value);
     if(check_path(*path) != 0)
     {
        free_text(path);
-        exit(1);
+        exit(0);
     }
 }
 
@@ -193,7 +193,7 @@ void check_multiple(t_map *map)
     {
         printf("Error textures !! \n");
         free(map->count);
-        exit(1);
+        exit(0);
     }
 }
 
@@ -300,7 +300,7 @@ void get_map2(t_map *map, int *i)
         file_err(3);
     map->map_copy = malloc(sizeof(char *) * (map->countlines_map + 1));
     if(!map->map_copy)
-        exit(1);
+        exit(0);
     while(map->line[j])
     {
         map->map_copy[k] = map->line[j];

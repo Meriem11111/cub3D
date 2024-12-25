@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/25 14:51:19 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/25 20:21:08 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void file_err(int i)
     if(i == 1)
     {
         printf("Error ! file \n");
-        exit(1);
+        exit(0);
     }
     if(i == 2)
     {
@@ -27,12 +27,12 @@ void file_err(int i)
     if(i == 3)
     {
         printf("Error ! empty map \n");
-        exit(1);
+        exit(0);
     }
     if(i == 4)
     {
         printf("error ! comma count \n");
-        exit(1);
+        exit(0);
     }
 }
 
@@ -102,7 +102,7 @@ void get_map(char *av, t_map *map)
         file_err(3);
     map->line = malloc(sizeof(char *) * (map->countlines + 1));
     if(!map->line)
-        exit(1);
+        exit(0);
     line = get_next_line(fd);
     // if(line[0] == '\n')
     // {
