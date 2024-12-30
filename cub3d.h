@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/25 11:53:55 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/28 13:39:38 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 #include <mlx.h>
 # include <string.h>
 # include <unistd.h>
+# include <math.h>
+
+#define WIDTH 800
+#define HEIGHT 600
 
 typedef struct s_count
 {
@@ -37,6 +41,7 @@ typedef struct s_map
     char **line;
     char **map_copy;
     int countlines;
+    char player_char;
     int x_p;
     int y_p;
     char *file_name;
@@ -55,6 +60,9 @@ typedef struct s_map
     void *mlx;
     void *win;
     int len;
+    double fov;
+    float rot_speed;
+    double rot_angle;
 } t_map;
 
 

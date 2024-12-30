@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:18:10 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/25 20:21:57 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/28 13:00:54 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int check_range(int range)
     if(range < 0 || range > 255)
     {
         printf("error ! invalid color range \n");
-        
         return(1);
     }
     return(0);
@@ -322,6 +321,19 @@ void check_player(t_map *map, int j, int i)
         exit(0);
     }
 }
+
+void check_direction(t_map *map)
+{
+    if(map->player_char == 'N')
+        map->rot_angle = -M_PI / 2;
+    else if(map->player_char == 'W')
+        map->rot_angle = M_PI;
+    else if(map->player_char == 'E')
+        map->rot_angle = M_PI * 2;
+    else if(map->player_char == 'S')
+        map->rot_angle = M_PI / 2;
+}
+
 void pos_player(t_map *map)
 {
     int i;
@@ -340,7 +352,10 @@ void pos_player(t_map *map)
             {
                 map->x_p = j;
                 map->y_p = i;
+                map->player_char = map->map_copy[i][j];
                 check_player(map, map->x_p, map->y_p);
+                check_direction(map);
+                printf("rot angle == %f\n", map->rot_angle);
                 return;
             }
             j++;
