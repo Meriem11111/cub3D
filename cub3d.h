@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/28 13:39:38 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/31 20:13:01 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_map
     double fov;
     float rot_speed;
     double rot_angle;
+    void *img;
 } t_map;
 
 

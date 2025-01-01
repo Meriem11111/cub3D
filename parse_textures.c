@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 22:18:10 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/28 13:00:54 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/31 20:45:53 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,7 @@ void get_len(t_map *map)
             count++;
             j++;
         }
+        
         if(map->len < count)
         {
             map->len = count;
@@ -329,7 +330,7 @@ void check_direction(t_map *map)
     else if(map->player_char == 'W')
         map->rot_angle = M_PI;
     else if(map->player_char == 'E')
-        map->rot_angle = M_PI * 2;
+        map->rot_angle = 2 * M_PI;
     else if(map->player_char == 'S')
         map->rot_angle = M_PI / 2;
 }

@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/30 13:24:22 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/31 20:29:47 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,8 @@ void draw_rect(t_map *map)
     int i =0;
     int j;
 
+    map->img = mlx_xpm_file_to_image(map->mlx, "./textures/floor.xpm",
+			&map->len, &map->countlines_map);
     while(map->map_copy[i])
     {
         j = 0;
@@ -280,7 +282,8 @@ void draw_rect(t_map *map)
         {
             if(map->map_copy[i][j] == '1')
             {
-                draw(map, i , j);
+                mlx_put_image_to_window(map->mlx, map->win, map->img, j * 20 , i * 50);
+                // draw(map, i , j);
             }
             j++;
         }
@@ -298,8 +301,11 @@ void draw_rect(t_map *map)
 
 int hit_wall(double ray_x, double ray_y, t_map *map)
 {
-    if (ray_x < 0 || ray_x >=  (map->len ) || ray_y < 0 || ray_y >= (map->countlines_map ) ) 
-        return 1;  
+     int map_x = (int)ray_x;
+    int map_y = (int)ray_y;
+    
+     if (map_x < 0 || map_x >= map->len || map_y < 0 || map_y >= map->countlines_map)
+        return 1; 
     if (map->map_copy[(int)ray_y][(int)ray_x] == '1') 
         return 1;
     return 0;  
@@ -316,9 +322,10 @@ void draw_angle(t_map *map, double x_p, double y_p, double angle, int color)
          printf("222222x == %d  22222222y == %d \n", (int)x, (int)y);
          
         mlx_pixel_put(map->mlx, map->win, (int)x * 20, (int)y * 50, color);
-    mlx_pixel_put(map->mlx, map->win, map->x_p * 20,  map->y_p * 50, 0x00FF00 );
-        x += cos(angle) ; 
-        y += sin(angle) ;
+        mlx_pixel_put(map->mlx, map->win, map->x_p * 20,  map->y_p * 50, 0x00FF00 );
+        x += cos(angle) ;
+        if(map->player_char != 'E')
+            y += sin(angle) ;
 
         if (hit_wall(x, y, map) == 1)
             break; 
@@ -329,15 +336,15 @@ void cast_rays(t_map *map)
 {
     double ray_x;
     double ray_y;
-    //int i = 0;
+    int i = 0;
     double dis;
     double ray_ang = map->rot_angle;
-   double ray_incre = map->fov / 1 ;
-    // while(i < 4)
-    // {
+   double ray_incre = map->fov / 4 ;
+    while(i < 4)
+    {
         ray_x = map->x_p;
         ray_y = map->y_p;
-    printf(" 111111111 xp == %d  yp == %d \n", map->x_p, map->y_p);
+        printf(" 111111111 xp == %d  yp == %d \n", map->x_p, map->y_p);
         draw_angle(map, map->x_p , map->y_p , ray_ang, 0x00FF0000);
         ray_ang += ray_incre;
         ray_ang = fmod(ray_ang, 2 * M_PI);
@@ -350,10 +357,10 @@ void cast_rays(t_map *map)
 
        dis = sqrt((ray_x - map->x_p) * (ray_x - map->x_p) +
             (ray_y - map->y_p) * (ray_y - map->y_p));
-         printf("Ray 0 Hit wall at distance: %.2f\n", dis);
-        //  i++;
+         printf("Ray %d Hit wall at distance: %.2f\n", i ,dis);
+         i++;
     }
-// }
+ }
 
 int	key_hook(int keycode, t_map *map)
 {
@@ -378,7 +385,7 @@ int	key_hook(int keycode, t_map *map)
     }
 	mlx_clear_window(map->mlx, map->win);
     draw_circle(map);
-    //draw_rect(map);
+    draw_rect(map);
     cast_rays(map);
 	return (0);
 }
@@ -407,7 +414,7 @@ int main(int ac, char **av)
     map.win = mlx_new_window(map.mlx, map.len * 20, map.countlines_map * 50, "cub");
     
     draw_circle(&map);
-    //draw_rect(&map);
+    draw_rect(&map);
     mlx_hook(map.win, 02, 1L << 0, key_hook, &map);
     mlx_hook(map.win, 17, 0, (void *)delete_window, &map);
     mlx_loop(map.mlx);
