@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/31 20:13:01 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:32:18 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,27 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
-#include <mlx.h>
 # include <string.h>
 # include <unistd.h>
-# include <math.h>
+# include <mlx.h>
+#include <math.h>
 
-#define WIDTH 800
-#define HEIGHT 600
+#define screenWidth 900
+#define screenHeight 600
+
+typedef struct s_map t_map;
+typedef struct s_data t_data;
+
+typedef struct	s_mlx
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+
+}				t_mlx;
+
 
 typedef struct s_count
 {
@@ -36,12 +50,59 @@ typedef struct s_count
     
 }  t_count;
 
+
+
+typedef struct s_wall
+{
+    float line_length;
+    float draw_start;
+    float draw_end;
+}              t_wall;
+
+
+
+typedef struct s_data
+{
+    float posx ;
+    float posy ;
+    float dirx ;
+    float diry ;
+    float planeX ;
+    float planeY ;
+    float cameraX;
+    float raydirX;
+    float raydirY;
+    int mapX;
+    int mapY;
+    float sidedistX;
+    float sidedistY;
+    float deltadisX;
+    float deltadisY;
+    float prepwalldist;
+    int stepx;
+    int stepy;
+    int hit;
+    int side;
+    char compass;
+    void *mlx;
+    void *mlx_win;
+    t_map *map;
+    t_wall *wall;
+    t_mlx *img;
+    
+} t_data;
+
+
 typedef struct s_map
 {
     char **line;
-    char **map_copy;
     int countlines;
-    char player_char;
+    int map_i;
+    int map_j;
+    char **map;
+    char **map_copy;
+    
+
     int x_p;
     int y_p;
     char *file_name;
@@ -57,13 +118,8 @@ typedef struct s_map
     int w;
     int e;
     int n;
-    void *mlx;
-    void *win;
-    int len;
-    double fov;
-    float rot_speed;
-    double rot_angle;
-    void *img;
+    t_data *data;
+    
 } t_map;
 
 
@@ -71,6 +127,21 @@ int	ft_strcmp(char *s1, char *s2);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 int	ft_strchar(char *s, int c);
 void free_all(t_map *map);
+void player_init(t_data *data);
+void raycast(t_data *data);
+void ray_init(t_data *data);
+void calc_length(t_data *data);
+void dda(t_data *data);
+void set_dda_vars(t_data *data);
+void wall_init(t_data *data);
+void ray_data_init(t_data *data, t_map *map, t_wall *wall);
+int draw_a_line(t_data *data, int x);
+void	my_mlx_pixel_put(t_mlx *data, int x, int y, int color);
+void data_init(t_data *data);
+void create_image(t_data *data);
+void check_player(t_map *map, int j, int i);
+
+
 int check_path(const char *path);
 void check_map(t_map *map);
 void check_valid(char *line, char **path);
@@ -91,11 +162,5 @@ int	ft_atoi(const char *str);
 int check_digit(char *value);
 void	*ft_memset(void *str, int c, size_t n);
 int count_comma(char *value);
-void pos_player(t_map *map);
-
-
-void to_left(t_map *map);
-void to_right(t_map *map);
-void to_down(t_map *map);
-void to_up(t_map *map);
+void parse_map(t_map *map, int i);
 #endif

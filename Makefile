@@ -1,10 +1,11 @@
 NAME = cub3D
 CC = cc 
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address
-src = main.c utils.c parse_textures.c check_errors.c moves.c free.c ft_split.c ./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c
-MLX = -lmlx_Linux -lXext -lX11 -lm
+CFLAGS = -g3 -Wall -Werror -Wextra -Imlx_linux #-fsanitize=address
+src = raycast.c main.c utils.c free.c ./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c check_errors.c ft_split.c parse_textures.c 
 
 OBJ = $(src:.c=.o)
+
+LDFLAGS = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 RED = "\033[0;31m"
 GREEN0 = "\033[32m"
@@ -17,7 +18,7 @@ RESET = \033[0m
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-		@ $(CC) $(CFLAGS) $(OBJ) $(MLX) -o $(NAME)
+		@ $(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) -o $(NAME)
 		@echo $(GREEN0) ✨ Compilation done ✨ 
 clean :
 		@echo $(RED) cleaning.. 

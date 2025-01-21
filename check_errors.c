@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/20 15:04:01 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/30 09:48:02 by meabdelk         ###   ########.fr       */
+/*   Created: 2025/01/20 16:41:03 by meabdelk          #+#    #+#             */
+/*   Updated: 2025/01/20 16:41:42 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
 
 void check_last(t_map *map, int *i)
 {
@@ -187,64 +188,3 @@ void check_spaces(t_map *map)
         i++;
     }
 }
-
-
-// #include <math.h>
-// #include <stdio.h>
-// #include <stdlib.h>
-
-// #define RAY_COUNT 320   // Number of rays for the field of view
-// #define FOV 1.047198    // Field of View (60 degrees in radians)
-// #define MOVE_SPEED 5.0  // Player's move speed
-// #define ROT_SPEED M_PI / 36  // Rotation speed (5 degrees)
-
-// typedef struct s_map {
-//     double player_x;
-//     double player_y;
-//     double rot_angle;
-//     char **map;  // Map representation ('1' = wall, '0' = open space)
-//     int map_width;
-//     int map_height;
-// } t_map;
-
-// // Check if the ray hits a wall (simple version)
-// int hit_wall(double ray_x, double ray_y, t_map *map)
-// {
-//     if (ray_x < 0 || ray_x >= map->map_width || ray_y < 0 || ray_y >= map->map_height)
-//         return 1;  // Hit a wall (out of bounds)
-//     if (map->map[(int)ray_y][(int)ray_x] == '1')  // Wall hit
-//         return 1;
-//     return 0;  // No collision
-// }
-
-// // Cast rays and check for walls
-// void cast_rays(t_map *map)
-// {
-//     double ray_angle;
-//     double ray_x, ray_y;
-//     double distance_to_wall;
-//     double step_size = 0.1;  // How much we move along each ray
-
-//     // Loop through each ray (for each pixel on the screen)
-//     for (int i = 0; i < RAY_COUNT; i++) {
-//         // Calculate the angle for this ray
-//         ray_angle = map->rot_angle + (FOV / 2) - (i * (FOV / RAY_COUNT));
-        
-//         // Initialize ray position (starting from the player's position)
-//         ray_x = map->player_x;
-//         ray_y = map->player_y;
-
-//         // Move along the ray in small steps
-//         while (!hit_wall(ray_x, ray_y, map)) {
-//             ray_x += cos(ray_angle) * step_size;  // Move right or left (X)
-//             ray_y += sin(ray_angle) * step_size;  // Move up or down (Y)
-//         }
-
-//         // Calculate the distance to the wall (using the Pythagorean theorem)
-//         distance_to_wall = sqrt((ray_x - map->player_x) * (ray_x - map->player_x) +
-//                                 (ray_y - map->player_y) * (ray_y - map->player_y));
-
-//         // Here, you can store the distance or use it to draw the ray (optional)
-//         printf("Ray %d: Hit wall at distance: %.2f\n", i, distance_to_wall);
-//     }
-// }

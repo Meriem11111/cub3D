@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 22:18:10 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/31 20:45:53 by meabdelk         ###   ########.fr       */
+/*   Created: 2025/01/20 15:15:26 by meabdelk          #+#    #+#             */
+/*   Updated: 2025/01/21 09:06:56 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ void check_textures(t_map *map, int i)
         }
         (i)++;
     } 
-    printf("count == %d\n", count);  
+    //printf("count == %d\n", count);  
     if(count != 4)
     {
         printf(" ERROR texture \n");
@@ -241,7 +241,7 @@ void check_fc(t_map *map, int i)
         }
         (i)++;
     }
-    printf("count fc == %d\n", count);  
+    //printf("count fc == %d\n", count);  
     if(count != 2)
     {
         printf(" ERROR floor and ceiling \n");
@@ -263,31 +263,6 @@ void skp_line(t_map *map, int i)
     }
 }
 
-void get_len(t_map *map)
-{
-    int count;
-    int i;
-    int j;
-
-    count = 0;
-    i = 0;
-    while(map->map_copy[i])
-    {
-        j = 0;
-        while(map->map_copy[i][j] != '\0')
-        {
-            count++;
-            j++;
-        }
-        
-        if(map->len < count)
-        {
-            map->len = count;
-        }
-        count = 0;
-        i++;
-    }
-}
 
 void get_map2(t_map *map, int *i)
 {
@@ -308,7 +283,6 @@ void get_map2(t_map *map, int *i)
         k++;
     }
     map->map_copy[k] = NULL;
-    get_len(map);
     
 }
 
@@ -323,47 +297,34 @@ void check_player(t_map *map, int j, int i)
     }
 }
 
-void check_direction(t_map *map)
-{
-    if(map->player_char == 'N')
-        map->rot_angle = -M_PI / 2;
-    else if(map->player_char == 'W')
-        map->rot_angle = M_PI;
-    else if(map->player_char == 'E')
-        map->rot_angle = 2 * M_PI;
-    else if(map->player_char == 'S')
-        map->rot_angle = M_PI / 2;
-}
 
-void pos_player(t_map *map)
-{
-    int i;
-    int j;
-    int len;
+// void pos_player(t_map *map)
+// {
+//     int i;
+//     int j;
+//     int len;
 
-    i = 0;
-    while(i < map->countlines_map)
-    {
-        j = 0;
-        len = ft_strlen(map->map_copy[i]) - 1;
-        while (j < len)
-        {
-            if(map->map_copy[i][j] == 'N' || map->map_copy[i][j] == 'S' 
-                || map->map_copy[i][j] == 'E' || map->map_copy[i][j] == 'W')
-            {
-                map->x_p = j;
-                map->y_p = i;
-                map->player_char = map->map_copy[i][j];
-                check_player(map, map->x_p, map->y_p);
-                check_direction(map);
-                printf("rot angle == %f\n", map->rot_angle);
-                return;
-            }
-            j++;
-        }
-        i++;
-    }
-}
+//     i = 0;
+//     while(i < map->countlines_map)
+//     {
+//         j = 0;
+//         len = ft_strlen(map->map_copy[i]) - 1;
+//         while (j < len)
+//         {
+//             if(map->map_copy[i][j] == 'N' || map->map_copy[i][j] == 'S' 
+//                 || map->map_copy[i][j] == 'E' || map->map_copy[i][j] == 'W')
+//             {
+//                 map->x_p = j;
+//                 map->y_p = i;
+//                 map->player_char = map->map_copy[i][j];
+//                 check_player(map, map->x_p, map->y_p);
+//                 return;
+//             }
+//             j++;
+//         }
+//         i++;
+//     }
+// }
 
 void check_valid_map(t_map *map, int *i)
 {
@@ -371,7 +332,7 @@ void check_valid_map(t_map *map, int *i)
     check_map_borders(map, i);
     check_characters(map, i);
     get_map2(map, i);
-    pos_player(map);
+    parse_map(map, *i);
     check_spaces(map);
 }
 
@@ -384,7 +345,7 @@ int is_map_line(char *line)
 }
 
 
-int ft_map(t_map *map, int *i)
+int ft_find_map(t_map *map, int *i)
 {
     int j;
 
@@ -399,6 +360,7 @@ int ft_map(t_map *map, int *i)
     }
     return(1);
 }
+
 void check_map(t_map *map)
 {
     int i;
@@ -407,7 +369,7 @@ void check_map(t_map *map)
     check_textures(map, i);
     check_fc(map, i);
     check_multiple(map);
-    if(ft_map(map, &i) != 1)
+    if(ft_find_map(map, &i) != 1)
     {
         check_valid_map(map, &i);
     } 

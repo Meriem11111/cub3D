@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:28 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/21 15:23:35 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:32:29 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void free_all(t_map *map)
 {
     free_map(map);
     free(map->count);
+    free(map->data);
     free(map->we_texture);
     free(map->so_texture);
     free(map->no_texture);

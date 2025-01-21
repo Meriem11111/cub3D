@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 11:06:40 by meabdelk          #+#    #+#             */
-/*   Updated: 2024/12/21 12:21:05 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:40:42 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	ft_strchar(char *s, int c)
 		return (1);
 	return (0);
 }
+
+
 static int	ft_check(char const *s, char c)
 {
 	int	i;

@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
+/*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 20:48:29 by meriem            #+#    #+#             */
-/*   Updated: 2024/12/12 20:57:49 by meriem           ###   ########.fr       */
+/*   Created: 2025/01/20 16:51:09 by meabdelk          #+#    #+#             */
+/*   Updated: 2025/01/20 16:51:38 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// int	ft_strlen(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 		i++;
-// 	return (i);
-// }
 
 int	count_words(const char *s, char c)
 {
