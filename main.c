@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2025/01/21 10:10:45 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/01/22 22:01:04 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,7 +365,7 @@ int ray(int keycode ,t_data *data)
 {
     // raycast(data);
     // (int)data;
-    printf("key is %d\n", keycode);
+    // printf("key is %d\n", keycode);
     // mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);
     // mlx_clear_window(data->mlx, data->mlx_win);
     if (keycode == 119)

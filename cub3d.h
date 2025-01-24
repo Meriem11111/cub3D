@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2025/01/20 20:32:18 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/01/24 09:28:18 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ typedef struct s_data
     t_map *map;
     t_wall *wall;
     t_mlx *img;
-    
 } t_data;
 
 
@@ -163,4 +162,6 @@ int check_digit(char *value);
 void	*ft_memset(void *str, int c, size_t n);
 int count_comma(char *value);
 void parse_map(t_map *map, int i);
+
+void draw_fc(t_data *data, int x);
 #endif

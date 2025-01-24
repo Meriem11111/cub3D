@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:44:11 by akoraich          #+#    #+#             */
-/*   Updated: 2025/01/21 10:14:04 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/01/24 09:17:18 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,6 @@ void calc_length(t_data *data)
     if (data->side == 0)
     {
         data->prepwalldist = data->sidedistX - data->deltadisX;
-        // printf("prepwalldist is %f sidedistx is %f deltadist is %f\n", data->prepwalldist, data->sidedistX, data->deltadisX);
     }
     else
     {
@@ -266,6 +265,8 @@ void raycast(t_data *data)
         {
             calc_length(data);
             draw_a_line(data, x);
+            draw_fc(data, x);
+            
         }
         data->hit = 0;
         x++;
@@ -294,18 +295,12 @@ void player_init(t_data *data)
             {
                 data->compass = data->map->map[i][j];
                 data->posx = ((float)j) + 0.5;
-				//printf("posx is %f\n", data->posx);
-                // //printf("mapx is %d\n", data->mapX);
                 data->posy = ((float)i) + 0.5;
+                
                 data->map->x_p = j;
                 data->map->y_p = i;
-
                 check_player(data->map, data->map->x_p, data->map->y_p);
                 return;
-				//printf("posy is %f\n", data->posy);
-
-                // //printf("mapy is %d\n", data->mapY);
-
             }
             j++;
         }
