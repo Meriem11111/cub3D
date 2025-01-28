@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:44:11 by akoraich          #+#    #+#             */
-/*   Updated: 2025/01/24 09:17:18 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:33:57 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ void raycast(t_data *data)
             calc_length(data);
             draw_a_line(data, x);
             draw_fc(data, x);
+           // load_tex(data);
             
         }
         data->hit = 0;

@@ -14,13 +14,11 @@
 
 int rgb_c(t_data *data)
 {
-    // printf("r = %d | g = %d | b = %d  \n", data->map->c_color[0], data->map->c_color[1] , data->map->c_color[2]);
     return((data->map->c_color[0] << 16) | (data->map->c_color[1] << 8) | data->map->c_color[2]);
 }
 
 int rgb_f(t_data *data)
 {
-    // printf("r = %d | g = %d | b = %d  \n", data->map->c_color[0], data->map->c_color[1] , data->map->c_color[2]);
     return((data->map->f_color[0] << 16) | (data->map->f_color[1] << 8) | data->map->f_color[2]);
 }
 
@@ -30,7 +28,6 @@ void draw_fc(t_data *data, int x)
     
     while(i < data->wall->draw_start)
     {
-        // printf("  --> d == %d \n", i * screenWidth + x);
         my_mlx_pixel_put(data->img, x, i, rgb_c(data));
         i++;
     }
@@ -41,3 +38,16 @@ void draw_fc(t_data *data, int x)
         i++;
     }
 }
+
+void load_tex(t_data *data)
+{
+    if(data->side = 0 && data->stepx = -1)
+        data->img->img = mlx_xpm_file_to_image(data->mlx, data->map->we_texture, &data->img->win_width, &data->img->win_height);
+    else if(data->side = 0 && data->stepx = 1)
+        data->img->img = mlx_xpm_file_to_image(data->mlx, data->map->ea_texture, &data->img->win_width, &data->img->win_height);
+    else if(data->side = 1 && data->stepy = -1)
+        data->img->img = mlx_xpm_file_to_image(data->mlx, data->map->no_texture, &data->img->win_width, &data->img->win_height);
+    else if(data->side = y && data->stepy = 1)
+        data->img->img = mlx_xpm_file_to_image(data->mlx, data->map->so_texture, &data->img->win_width, &data->img->win_height);
+}
+

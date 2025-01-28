@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2025/01/24 09:28:18 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:44:24 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct	s_mlx
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+    int     win_height;
+    int     win_width;
 
 }				t_mlx;
 
