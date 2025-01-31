@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meriem <meriem@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:28 by meriem            #+#    #+#             */
-/*   Updated: 2025/01/20 17:32:29 by meabdelk         ###   ########.fr       */
+/*   Updated: 2024/12/11 00:03:54 by meriem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,41 +25,8 @@ void free_map(t_map *map)
     free(map->line);
 }
 
-void free_map2(t_map *map)
-{
-    int i;
-
-    i = 0;
-    while (i < map->countlines_map)
-    {
-        free(map->map_copy[i]);
-        i++;
-    }
-    free(map->map_copy);
-}
-
-void free_text(char **texture)
-{
-    int i;
-
-    if(!texture)
-        return;
-    i = 0;
-    while (texture[i])
-    {
-        free(texture[i]);
-        i++;
-    }
-    free(texture);
-}
-
 void free_all(t_map *map)
 {
     free_map(map);
     free(map->count);
-    free(map->data);
-    free(map->we_texture);
-    free(map->so_texture);
-    free(map->no_texture);
-    free(map->ea_texture);
 }

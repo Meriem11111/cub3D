@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2025/01/25 15:44:24 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:30:34 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 # include <mlx.h>
 #include <math.h>
 
-#define screenWidth 900
-#define screenHeight 600
+#define screenWidth 955
+#define screenHeight 655
+# define TILE_SIZE 64
 
 typedef struct s_map t_map;
 typedef struct s_data t_data;
@@ -37,6 +38,26 @@ typedef struct	s_mlx
 	int		endian;
     int     win_height;
     int     win_width;
+    void	*img_e;
+    void	*img_n;
+    void	*img_s;
+    void	*img_w;
+    char    *add_pxl_n;
+    char    *add_pxl_s;
+    char    *add_pxl_e;
+    char    *add_pxl_w;
+    int		endian_e;
+    int		endian_s;
+    int		endian_n;
+    int		endian_w;
+    int		bits_per_pixel_e;
+	int		line_length_e;
+    int		bits_per_pixel_n;
+	int		line_length_n;
+    int		bits_per_pixel_s;
+	int		line_length_s;
+    int		bits_per_pixel_w;
+	int		line_length_w;
 
 }				t_mlx;
 
@@ -52,7 +73,31 @@ typedef struct s_count
     
 }  t_count;
 
-
+typedef struct s_map
+{
+    char **line;
+    int countlines;
+    int map_i;
+    int map_j;
+    char **map;
+    char **map_copy;
+     int x_p;
+    int y_p;
+    char *file_name;
+    char *no_texture;
+    char *so_texture;
+    char *we_texture;
+    char *ea_texture;
+    int f_color[3];
+    int c_color[3];
+    int countlines_map;
+    int s;
+    int w;
+    int e;
+    int n;
+    t_data *data;
+    t_count *count;
+} t_map;
 
 typedef struct s_wall
 {
@@ -61,7 +106,14 @@ typedef struct s_wall
     float draw_end;
 }              t_wall;
 
-
+typedef struct s_mini_map
+{
+    int height;
+    int width;
+    int start;
+    int square_width;
+    int square_height;
+}              t_mini_map;
 
 typedef struct s_data
 {
@@ -88,40 +140,14 @@ typedef struct s_data
     char compass;
     void *mlx;
     void *mlx_win;
+    int player_i;
+    int player_j;
     t_map *map;
     t_wall *wall;
     t_mlx *img;
+    t_mini_map *minimap;
+
 } t_data;
-
-
-typedef struct s_map
-{
-    char **line;
-    int countlines;
-    int map_i;
-    int map_j;
-    char **map;
-    char **map_copy;
-    
-
-    int x_p;
-    int y_p;
-    char *file_name;
-    t_count *count;
-    char *no_texture;
-    char *so_texture;
-    char *we_texture;
-    char *ea_texture;
-    int f_color[3];
-    int c_color[3];
-    int countlines_map;
-    int s;
-    int w;
-    int e;
-    int n;
-    t_data *data;
-    
-} t_map;
 
 
 int	ft_strcmp(char *s1, char *s2);
@@ -140,6 +166,8 @@ int draw_a_line(t_data *data, int x);
 void	my_mlx_pixel_put(t_mlx *data, int x, int y, int color);
 void data_init(t_data *data);
 void create_image(t_data *data);
+int draw_minimap(t_data *data, t_mini_map *map);
+void mini_map(t_data *data);
 void check_player(t_map *map, int j, int i);
 
 
@@ -164,6 +192,17 @@ int check_digit(char *value);
 void	*ft_memset(void *str, int c, size_t n);
 int count_comma(char *value);
 void parse_map(t_map *map, int i);
+int rgb_c(t_data *data);
+int rgb_f(t_data *data);
 
-void draw_fc(t_data *data, int x);
+void render_wall(t_data *data, int x);
+void draw_fc(t_data *data, int x, double *y);
+void init_img(t_data *data);
+void draw_w(t_data *data, int x, int y, int tex_y);
+void draw_s(t_data *data, double x, double y, double tex_y);
+void draw_e(t_data *data, double  x, double y, double tex_y);
+void draw_n(t_data *data, double x, double y, double tex_y);
+// void draw_fc(t_data *data, int x);
+void load_tex(t_data *data);
+
 #endif

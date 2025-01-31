@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:44:11 by akoraich          #+#    #+#             */
-/*   Updated: 2025/01/25 16:33:57 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:49:16 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,11 @@ void data_init(t_data *data)
    
 // }
 
-void	my_mlx_pixel_put(t_mlx *img, int x, int y, int color)
+void	 my_mlx_pixel_put(t_mlx *img, int x, int y, int color)
 {
 	char	*dst;
+
+    // dst = malloc(sizeof(img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8))));
 
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
@@ -113,6 +115,8 @@ void ray_data_init(t_data *data, t_map *map, t_wall *wall)
     data->stepx = 0;
     data->stepy = 0;
     data->compass = 0;
+    data->player_i = 0;
+    data->player_j = 0;
     data->map = map;
     data->wall = wall;
 }
@@ -188,27 +192,29 @@ void dda(t_data *data)
 
 void calc_length(t_data *data)
 {
-
     if (data->side == 0)
     {
         data->prepwalldist = data->sidedistX - data->deltadisX;
+        //printf("prepwalldist is %f sidedistx is %f deltadist is %f\n", data->prepwalldist, data->sidedistX, data->deltadisX);
     }
     else
     {
         data->prepwalldist = data->sidedistY - data->deltadisY;
-        // printf("prepwalldist is %f sidedistx is %f deltadist is %f\n", data->prepwalldist, data->sidedistY, data->deltadisY);
+        //printf("prepwalldist is %f sidedistx is %f deltadist is %f\n", data->prepwalldist, data->sidedistY, data->deltadisY);
     }
-    // if ((int)data->prepwalldist != 0)
-    // if ((int)data->prepwalldist == 0)
-    // {
-    //     printf("errooooooor\n");
-    //     return ;    
+    //if ((int)data->prepwalldist != 0)
+    //if ((int)data->prepwalldist == 0)
+    //{
+    //    printf("errooooooor\n");
+    //    return;    
     // }
-    if ((int)data->prepwalldist == 0)
+    if (data->prepwalldist == 0)
     {
         // printf("og prep is %f\n", data->prepwalldist);
+        data->wall->line_length = ((float)screenHeight / 0.1);
     }
-    data->wall->line_length = ((float)screenHeight / (data->prepwalldist));
+    else
+        data->wall->line_length = ((float)screenHeight / (data->prepwalldist));
 	// else
 	// 	data->wall->line_length = screenHeight;
     data->wall->draw_start = ((-data->wall->line_length) / 2) + ((float)screenHeight / 2);
@@ -237,8 +243,37 @@ void ray_init(t_data *data)
     data->stepy = 0;
     data->mapX = (int)(data->posx);
     data->mapY = (int)data->posy;
-
 }
+
+// int rgb_c(t_data *data)
+// {
+//     // printf("r = %d | g = %d | b = %d  \n", data->map->c_color[0], data->map->c_color[1] , data->map->c_color[2]);
+//     return((data->map->c_color[0] << 16) | (data->map->c_color[1] << 8) | data->map->c_color[2]);
+// }
+
+// int rgb_f(t_data *data)
+// {
+//     // printf("r = %d | g = %d | b = %d  \n", data->map->c_color[0], data->map->c_color[1] , data->map->c_color[2]);
+//     return((data->map->f_color[0] << 16) | (data->map->f_color[1] << 8) | data->map->f_color[2]);
+// }
+
+// void draw_fc(t_data *data, int x)
+// {
+//     int i = 0;
+    
+//     while(i < data->wall->draw_start)
+//     {
+//         // printf("  --> d == %d \n", i * screenWidth + x);
+//         my_mlx_pixel_put(data->img, x, i, rgb_c(data));
+//         i++;
+//     }
+//     i = data->wall->draw_end;
+//     while(i < screenHeight)
+//     {
+//         my_mlx_pixel_put(data->img, x, i, rgb_f(data));
+//         i++;
+//     }
+// }
 
 void raycast(t_data *data)
 {
@@ -246,32 +281,32 @@ void raycast(t_data *data)
 
     x = 0;
 	create_image(data);
+    load_tex(data);
     while(x < screenWidth)
     {
         wall_init(data);
         ray_init(data);
         data->cameraX = 2 * x / (float)screenWidth - 1;
 		//printf("camerax is %f\n", data->cameraX);
-       
         data->raydirX = data->dirx + (data->planeX * data->cameraX);
         //printf("raydirx is %f\n", data->raydirX); 
         data->raydirY = data->diry + (data->planeY * data->cameraX);
         //printf("raydiry is %f\n", data->raydirY);
-    
  
         set_dda_vars(data);
         dda(data);
         if(data->hit == 1)
         {
             calc_length(data);
-            draw_a_line(data, x);
-            draw_fc(data, x);
-           // load_tex(data);
-            
+            printf("=====%f\n", data->raydirX );
+            printf("=====%f\n", data->raydirY );
+            render_wall(data, x);
+
         }
         data->hit = 0;
         x++;
     }
+    draw_minimap(data, data->minimap);
     
 }
 
@@ -282,11 +317,6 @@ void player_init(t_data *data)
 
     i = 0;
     j = 0;
-    if (!data || !data->map || !data->map->map)
-    {
-        printf("Error: invalid map data in player_init\n");
-        return; 
-    }
     while (data->map->map[i])
     {
         while(data->map->map[i][j])
@@ -295,13 +325,12 @@ void player_init(t_data *data)
                 || data->map->map[i][j] == 'S'|| data->map->map[i][j] == 'W')
             {
                 data->compass = data->map->map[i][j];
+                data->player_i = i;
+                data->player_j = j;
                 data->posx = ((float)j) + 0.5;
+				//printf("posx is %f\n", data->posx);
                 data->posy = ((float)i) + 0.5;
-                
-                data->map->x_p = j;
-                data->map->y_p = i;
-                check_player(data->map, data->map->x_p, data->map->y_p);
-                return;
+
             }
             j++;
         }
