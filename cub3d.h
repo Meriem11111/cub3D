@@ -6,7 +6,7 @@
 /*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 15:08:06 by meabdelk          #+#    #+#             */
-/*   Updated: 2025/01/31 18:30:34 by meabdelk         ###   ########.fr       */
+/*   Updated: 2025/02/02 21:30:31 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct	s_mlx
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-    int     win_height;
+     int     win_height;
     int     win_width;
     void	*img_e;
     void	*img_n;
@@ -193,16 +193,8 @@ void	*ft_memset(void *str, int c, size_t n);
 int count_comma(char *value);
 void parse_map(t_map *map, int i);
 int rgb_c(t_data *data);
-int rgb_f(t_data *data);
 
-void render_wall(t_data *data, int x);
 void draw_fc(t_data *data, int x, double *y);
-void init_img(t_data *data);
-void draw_w(t_data *data, int x, int y, int tex_y);
-void draw_s(t_data *data, double x, double y, double tex_y);
-void draw_e(t_data *data, double  x, double y, double tex_y);
-void draw_n(t_data *data, double x, double y, double tex_y);
-// void draw_fc(t_data *data, int x);
-void load_tex(t_data *data);
+void freee(t_map *map);
 
 #endif

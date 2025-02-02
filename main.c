@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoraich <akoraich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: meabdelk <meabdelk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 14:20:48 by meabdelk          #+#    #+#             */
-/*   Updated: 2025/01/29 09:50:42 by akoraich         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:11:40 by meabdelk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,7 @@ void check_valid(char *line, char **path)
     free_text(value);
     if(check_path(*path) != 0)
     {
-       free_text(path);
+    //    free_text(path);
         exit(0);
     }
 }
@@ -482,7 +482,7 @@ void check_textures(t_map *map, int i)
     if(count != 4)
     {
         printf(" ERROR texture \n");
-        free_all(map);
+        freee(map);
         exit(0);
     }
 }
@@ -507,7 +507,7 @@ void check_fc(t_map *map, int i)
     if(count != 2)
     {
         printf(" ERROR floor and ceiling \n");
-        free_all(map);
+        freee(map);
         exit(0); 
     }    
 }
@@ -524,7 +524,7 @@ int get_longest_line(char **line, int i)
 	longest = 0;
 	while(line[i])
 	{
-		while(line[i][j])
+		while(line[i][j] != '\0' && line[i][j] != '\n')
 		{
 			j++;
 		}
@@ -546,7 +546,7 @@ void parse_map(t_map *map, int i)
     // printf("here %s\n", data->map->map[0]);
 	int l = get_longest_line(map->line, i);
     // int l = map->countlines_map;
-    // printf("after %i\n", i);
+    // printf("after %d\n", l);
     // exit(0);
     map->map_j = l;
 	while (map->line[j])
@@ -567,12 +567,18 @@ void parse_map(t_map *map, int i)
 	l = 0;
 	while (map->line[i])
 	{
-		while (map->line[i][j])
+		while (map->line[i][j] != '\0' && map->line[i][j] != '\n')
 		{
 			map->map[l][j] = map->line[i][j];
 			j++;
 		}
+		while (j < map->map_j)
+		{
+			map->map[l][j] = ' ';
+			j++;
+		}
 		map->map[l][j] = '\0';
+		// printf("j %d\n", j);
 		// printf("l is %d map is %s\n",l,  map->map[l]);
 		i++;
 		l++;
@@ -616,8 +622,8 @@ void check_last(t_map *map, int *i)
     {
        if(map->line[k - 1][j] != '1' && map->line[k - 1][j] != ' ' && map->line[k - 1][j] != '\t')
        {
-            printf("Error \n invalid border \n ");
-            free_all(map);
+            printf("Error \n invalid border\n");
+            freee(map);
             exit(0);
        }
        j++;
@@ -637,8 +643,8 @@ void check_first_last(t_map *map, int *i)
     {
        if(map->line[k][j] != '1' && map->line[k][j] != ' ' && map->line[k][j] != '\t')
        {
-            printf("Error \n invalid border \n ");
-            free_all(map);
+            printf("Error \n invalid border\n ");
+            freee(map);
             exit(0);
        }
        j++;
@@ -665,7 +671,7 @@ void check_map_borders(t_map *map, int *i)
         {
             printf("Error\n Invalid map !\n");
             printf(" -------->k == %d \n", k);
-            free_all(map);
+            freee(map);
             exit (0);
         }
         k++;
@@ -680,13 +686,13 @@ void ft_error(t_map *map)
     if(count == 0)
     {
         printf("error \n missing player !\n");
-        free_all(map);
+        freee(map);
         exit(0);
     }
     else if(count != 1)
     {
         printf("error \n more than one player found!\n");
-        free_all(map);
+        freee(map);
         exit(0);
     }
 }
@@ -714,7 +720,7 @@ void check_characters(t_map *map, int *i)
                 && map->line[k][j] != ' ' && map->line[k][j] != '\t')
             {
                 printf("Error\n Unknown character \n");
-                free_all(map);
+                freee(map);
                 exit(0);
             }
             j--;
@@ -754,7 +760,7 @@ void verify_space(t_map *map, int i, int j)
         || (map->map_copy[i][j - 1] == ' ' || map->map_copy[i][j - 1] == '\t'||  map->map_copy[i][j - 1] == '\n' ))
         {
             printf("Error\n '0' is surrounded by spaces at line %d, column %d\n", i, j);
-            free_all(map);
+            freee(map);
             exit(0); 
         }
     
@@ -808,7 +814,7 @@ void check_map(t_map *map)
     else
     {
 		printf("Map doesn't exist!\n");
-        free_all(map);
+        freee(map);
         exit(0);
     }
 }
@@ -869,29 +875,34 @@ void create_image(t_data *data)
     data->img = img;
 }
 
-int right(t_data *data)
+int povright(t_data *data) //used rotation matrices 
 {
-    double oldDirX = data->dirx;
+    float oldDirX;
+    float oldPlaneX;
+
+    oldDirX = data->dirx;
+    oldPlaneX = data->planeX;
     data->dirx = data->dirx * cos(0.1) - data->diry * sin(0.1);
-      data->diry = oldDirX * sin(0.1) + data->diry * cos(0.1);
-      double oldPlaneX = data->planeX;
-      data->planeX = data->planeX * cos(0.1) - data->planeY * sin(0.1);
-      data->planeY = oldPlaneX * sin(0.1) + data->planeY * cos(0.1);
-    // printf("\n\n posx after %f\n", data->posx);
+    data->diry = oldDirX * sin(0.1) + data->diry * cos(0.1);
+    data->planeX = data->planeX * cos(0.1) - data->planeY * sin(0.1);
+    data->planeY = oldPlaneX * sin(0.1) + data->planeY * cos(0.1);
     raycast(data);
     mlx_clear_window(data->mlx, data->mlx_win);
     mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);
     return 0;
 }
 
-int left(t_data *data)
+int povleft(t_data *data)
 {
-   double oldDirX = data->dirx;
+    float oldDirX;
+    float oldPlaneX;
+
+    oldDirX = data->dirx;
+    oldPlaneX = data->planeX;
     data->dirx = data->dirx * cos(-0.1) - data->diry * sin(-0.1);
-      data->diry = oldDirX * sin(-0.1) + data->diry * cos(-0.1);
-      double oldPlaneX = data->planeX;
-      data->planeX = data->planeX * cos(-0.1) - data->planeY * sin(-0.1);
-      data->planeY = oldPlaneX * sin(-0.1) + data->planeY * cos(-0.1);
+    data->diry = oldDirX * sin(-0.1) + data->diry * cos(-0.1);
+    data->planeX = data->planeX * cos(-0.1) - data->planeY * sin(-0.1);
+    data->planeY = oldPlaneX * sin(-0.1) + data->planeY * cos(-0.1);
     raycast(data);
     mlx_clear_window(data->mlx, data->mlx_win);
     mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);
@@ -910,47 +921,90 @@ void move_mini_player_front(t_data *data)
     }
 }
 
-int front(t_data *data)
+int left(t_data *data)
 {
-    data->posx += data->dirx;
-    data->posy += data->diry;
-    // if (data->posy - 0.5 <= 0)
-    //     return 1;
-    // data->posy -= 0.5;
+    float newposx;
+    float newposy;
+
+    newposx = data->posx - data->diry * 0.3;
+    newposy = data->posy - data->dirx * 0.3;
+    if (data->map->map[(int)newposy][(int)newposx] == '1')
+        return 1;
+    data->posx = newposx;
+    data->posy = newposy;
     move_mini_player_front(data);
     raycast(data);
     mlx_clear_window(data->mlx, data->mlx_win);
     mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0); 
     return 0;
-//     raycast(data);
-//     mlx_clear_window(data->mlx, data->mlx_win);
-//     mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);    
 }
 
-int back(t_data *data)
+int right(t_data *data)
 {
-    data->posx -= data->dirx;
-    data->posy -= data->diry;
-    // if (data->posy + 0.5 >= (float)data->map->map_i)
-    //     return 1;
-    // data->posy += 0.5;
-    // move_mini_player_back(data);
+    float newposx;
+    float newposy;
+
+    newposx = data->posx + data->diry * 0.3;
+    newposy = data->posy + data->dirx * 0.3;
+    if (data->map->map[(int)newposy][(int)newposx] == '1')
+        return 1;
+    data->posx = newposx;
+    data->posy = newposy;
+    move_mini_player_front(data);
     raycast(data);
     mlx_clear_window(data->mlx, data->mlx_win);
     mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0); 
     return 0;
-    // raycast(data);
-    // mlx_clear_window(data->mlx, data->mlx_win);
-    // mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);    
+}
+
+int front(t_data *data)
+{
+    float newposx;
+    float newposy;
+
+    newposx = data->posx + data->dirx * 0.3;
+    newposy = data->posy + data->diry * 0.3;
+    if (data->map->map[(int)newposy][(int)newposx] == '1')
+        return 1;
+    data->posx = newposx;
+    data->posy = newposy;
+    move_mini_player_front(data);
+    raycast(data);
+    mlx_clear_window(data->mlx, data->mlx_win);
+    mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0); 
+    return 0;
+}
+
+int back(t_data *data)
+{
+    float newposx;
+    float newposy;
+
+    newposx = data->posx - data->dirx * 0.3;
+    newposy = data->posy - data->diry * 0.3;
+    if (data->map->map[(int)newposy][(int)newposx] == '1')
+        return 1;
+    data->posx = newposx;
+    data->posy = newposy;
+    raycast(data);
+    mlx_clear_window(data->mlx, data->mlx_win);
+    mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0); 
+    return 0;   
 }
 
 int ray(int keycode ,t_data *data)
 {
     // raycast(data);
     // (int)data;
-    printf("key is %d\n", keycode);
+    // printf("key is %d\n", keycode);
     // mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);
     // mlx_clear_window(data->mlx, data->mlx_win);
+	if (keycode == 97)
+		if(right(data) == 1)
+            return 0;
+	if (keycode == 100)
+		if(left(data) == 1)
+            return 0;
     if (keycode == 119)
 		if(front(data) == 1)
             return 0;
@@ -958,14 +1012,23 @@ int ray(int keycode ,t_data *data)
 		if (back(data) == 1)
             return 0;
 	if (keycode == 65361)
-		if (left(data) == 1)
+		if (povleft(data) == 1)
             return 0;
 	if (keycode == 65363)
-		if (right(data) == 1)
+		if (povright(data) == 1)
             return 0;
 	if (keycode == 65307)
-		exit(1);
+    {
+        free_all(data->map);
+		exit(0);
+    }
 	return 0;
+}
+
+int delete_window(t_data *data)
+{
+    free_all(data->map);
+	exit(0);
 }
 
 void    create_window(t_data *data, t_map *map, t_wall *wall)
@@ -984,7 +1047,8 @@ void    create_window(t_data *data, t_map *map, t_wall *wall)
     raycast(data);
     mlx_clear_window(data->mlx, data->mlx_win);
     mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);
-    mlx_key_hook(data->mlx_win, &ray, data);
+    mlx_hook(data->mlx_win, 2, 1L<<0, &ray, data);
+	mlx_hook(data->mlx_win, 17, 0, (void *)delete_window, data);
 	mlx_loop(data->mlx);
 }
 
@@ -1001,6 +1065,7 @@ int main(int ac, char **av)
         printf("Error\nnumber of args\n");
 	    exit(0);
     }
+    
     map = malloc(sizeof(t_map));
     data = malloc(sizeof(t_data));
     check_file(av[1]);
